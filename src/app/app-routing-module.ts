@@ -10,6 +10,7 @@ import { GestionarCategoria } from './modules/dashboard/gestionar-categoria/gest
 import { GestionarProducto } from './modules/dashboard/gestionar-producto/gestionar-producto';
 import { ListarProductos } from './modules/dashboard/listar-productos/listar-productos';
 import {  AsistenciaComponent } from './modules/dashboard/asistencia/asistencia';
+import { HistorialComponent } from './modules/dashboard/asistencia/historial/historial';
 const routes: Routes = [
    { path: '', redirectTo: 'login', pathMatch: 'full'},
    {path: 'registrar', component: RegistrarComponent},
@@ -26,7 +27,8 @@ const routes: Routes = [
   component: BienvenidaUsuario,
   children: [
     { path: 'marcar-asistencia', component:  AsistenciaComponent },
-    { path: 'listar-productos', component: ListarProductos } // También le damos acceso a ver productos
+    { path: 'listar-productos', component: ListarProductos }, // También le damos acceso a ver productos
+    { path: 'mi-historial', component: HistorialComponent }
   ]
 },
    {path: 'cambiar-role', component: CambiarRol},

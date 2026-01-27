@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../services/auth'; // Verifica que la ruta a tu servicio sea esta
+import { AuthService } from '../../../services/auth'; 
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,22 +10,25 @@ import { Router } from '@angular/router';
 })
 export class BienvenidaUsuario {
   
-  // Inyectamos el servicio de autenticación y el router
   constructor(private authService: AuthService, private router: Router) {}
 
-  // Esta es la función que el HTML estaba buscando
   cerrarSesion() {
     this.authService.logout().then(() => {
-      // 1. Limpiamos el rastro del empleado
+      // 1. Limpieza profunda de almacenamiento
       localStorage.clear();
       sessionStorage.clear();
 
-      // 2. Lo mandamos al login y bloqueamos el botón "atrás"
-      this.router.navigate(['/login'], { replaceUrl: true });
-      
       console.log('Sesión de empleado cerrada');
+
+      // 2. ROMPER EL BUCLE: En lugar de solo navegar, redirigimos físicamente
+      // Esto reinicia el estado de Angular y evita que los Guards se confundan
+      window.location.href = '/login'; 
+      
     }).catch(error => {
       console.log('Error al salir:', error);
+      // Si falla Firebase, igual forzamos la salida local
+      localStorage.clear();
+      window.location.href = '/login';
     });
   }
 }

@@ -1,1 +1,40 @@
-<p>historial works!</p>
+<div class="historial-container">
+  <div class="header-section">
+    <span class="badge">REGISTROS</span>
+    <h2 class="titulo">Mi Historial</h2>
+  </div>
+
+  <div class="tabla-card">
+    <div class="loader-container" *ngIf="cargando">
+      <div class="spinner"></div>
+      <p>Cargando registros...</p>
+    </div>
+    
+    <table class="tabla-custom" *ngIf="!cargando && historial.length > 0">
+      <thead>
+        <tr>
+          <th>FECHA</th>
+          <th>ENTRADA</th>
+          <th>SALIDA</th>
+          <th>ESTADO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of historial">
+          <td class="fecha-celda">{{ item.fecha }}</td>
+          <td>{{ item.horaEntrada }}</td>
+          <td>{{ item.horaSalida || '--:--' }}</td>
+          <td>
+            <span class="status-pill" [class.completado]="item.horaSalida">
+              {{ item.horaSalida ? 'COMPLETADO' : 'EN CURSO' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="no-data" *ngIf="!cargando && historial.length === 0">
+      <p>No se encontraron registros.</p>
+    </div>
+  </div>
+</div>

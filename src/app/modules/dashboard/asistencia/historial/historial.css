@@ -1,0 +1,44 @@
+.historial-container { padding: 30px; animation: fadeIn 0.5s ease; }
+.header-section { margin-bottom: 25px; }
+.badge { color: #ff7300; font-weight: 800; font-size: 0.7rem; letter-spacing: 2px; }
+.titulo { color: white; font-size: 1.8rem; margin: 5px 0; }
+
+.tabla-card {
+  background: #111;
+  border-radius: 12px;
+  border: 1px solid #222;
+  padding: 20px;
+  min-height: 200px;
+}
+
+.tabla-custom { width: 100%; border-collapse: collapse; }
+.tabla-custom th { text-align: left; padding: 12px; color: #555; font-size: 0.8rem; border-bottom: 2px solid #222; }
+.tabla-custom td { padding: 15px 12px; color: #ccc; border-bottom: 1px solid #1a1a1a; }
+
+.fecha-celda { color: #fff; font-weight: 600; }
+.icon-e { color: #28a745; margin-right: 8px; }
+.icon-s { color: #dc3545; margin-right: 8px; }
+
+.status-pill {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: rgba(255, 115, 0, 0.1);
+  color: #ff7300;
+}
+
+.status-pill.completado { background: rgba(40, 167, 69, 0.1); color: #28a745; }
+
+.loader-container, .error-msg, .no-data {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 50px; color: #666; text-align: center;
+}
+
+.spinner {
+  width: 30px; height: 30px; border: 3px solid #222; border-top: 3px solid #ff7300;
+  border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
