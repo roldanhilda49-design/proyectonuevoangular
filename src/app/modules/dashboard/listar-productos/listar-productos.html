@@ -1,61 +1,82 @@
 <div class="lista-productos-container">
   <div class="card-list">
     <div class="list-header">
-      <h3>Inventario de Productos</h3>
-      <span class="product-count">{{ productos.length }} Items registrados</span>
+      <div class="search-section">
+        <h3>Panel de Inventario</h3>
+        <div class="search-box">
+          <input type="text" [(ngModel)]="terminoBusqueda" (input)="filtrarProductos()" placeholder="Buscar producto...">
+        </div>
+      </div>
+      <span class="product-count">{{productosFiltrados.length}} PRODUCTOS</span>
     </div>
-    
+
     <div class="table-responsive">
       <table class="table-prod">
         <thead>
           <tr>
-            <th>Imagen</th>
-            <th>Producto</th>
-            <th>Categoría</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th class="text-center">Acciones</th>
+            <th>ESTADO</th>
+            <th>IMAGEN</th>
+            <th>PRODUCTO / CATEGORÍA</th>
+            <th>VENCIMIENTO</th>
+            <th>PRECIO</th>
+            <th>STOCK</th>
+            <th style="text-align: center;">ACCIONES</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let p of productos" [class.row-editing]="productoEditando === p.id">
-            
-            <ng-container *ngIf="productoEditando !== p.id">
-              <td class="td-img">
-                <div class="img-wrapper">
-                  <img [src]="p.imagenUrl || 'assets/no-image.png'" alt="Producto" class="img-thumb">
-                </div>
-              </td>
-              <td class="td-name"><strong>{{ p.nombre }}</strong></td>
-              <td><span class="badge-cat">{{ getNombreCategoria(p.idCategoria) }}</span></td>
-              <td class="price-cell">{{ p.precio | currency:'Bs ' }}</td>
-              <td><span class="stock-label">{{ p.stock }} <small>u.</small></span></td>
-              <td class="acciones">
-                <button class="btn-edit" (click)="editarProducto(p)">Editar</button>
-                <button class="btn-del" (click)="eliminar(p.id!)">Eliminar</button>
-              </td>
-            </ng-container>
+          <tr *ngFor="let p of productosFiltrados" [class.row-editing]="productoEditando === p.id">
+            <td>
+              <div [class]="'badge-alarma ' + getAlertaVencimiento(p.fechaVencimiento).clase">
+                {{getAlertaVencimiento(p.fechaVencimiento).icono}} {{getAlertaVencimiento(p.fechaVencimiento).mensaje}}
+              </div>
+            </td>
 
-            <ng-container *ngIf="productoEditando === p.id">
-              <td>
-                <div class="img-wrapper edit-mode">
-                  <img [src]="p.imagenUrl || 'assets/no-image.png'" class="img-thumb disabled-img">
-                </div>
-              </td>
-              <td><input [(ngModel)]="nombreEditado" class="edit-input" placeholder="Nombre"></td>
-              <td>
-                <select [(ngModel)]="categoriaEditada" class="edit-input">
-                  <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
+            <td>
+              <div class="img-wrapper">
+                <img [src]="p.imagenUrl || 'assets/no-image.png'" class="img-thumb" onerror="this.src='assets/no-image.png'">
+              </div>
+            </td>
+
+            <td>
+              <div *ngIf="productoEditando !== p.id">
+                <strong class="prod-name">{{p.nombre}}</strong>
+                <span class="badge-cat-main">{{getNombreCategoria(p.idCategoria)}}</span>
+              </div>
+              <div *ngIf="productoEditando === p.id">
+                <input type="text" [(ngModel)]="prodAux.nombre" class="edit-input mb-5">
+                <select [(ngModel)]="prodAux.idCategoria" class="edit-input">
+                  <option *ngFor="let cat of categorias" [value]="cat.id">{{cat.nombre}}</option>
                 </select>
-              </td>
-              <td><input type="number" [(ngModel)]="precioEditado" class="edit-input sm"></td>
-              <td><input type="number" [(ngModel)]="stockEditado" class="edit-input sm"></td>
-              <td class="acciones">
-                <button class="btn-save" (click)="guardarEdicion(p)">Guardar</button>
-                <button class="btn-cancel" (click)="cancelarEdicion()">Cancelar</button>
-              </td>
-            </ng-container>
+              </div>
+            </td>
 
+            <td>
+              <span *ngIf="productoEditando !== p.id" class="vencimiento-text">
+                {{ (p.fechaVencimiento || null) | date:'dd/MM/yyyy' }}
+              </span>
+              <input *ngIf="productoEditando === p.id" type="date" [(ngModel)]="prodAux.fechaVencimiento" class="edit-input">
+            </td>
+
+            <td>
+              <span *ngIf="productoEditando !== p.id" class="price-cell">Bs {{p.precio}}</span>
+              <input *ngIf="productoEditando === p.id" type="number" [(ngModel)]="prodAux.precio" class="edit-input sm">
+            </td>
+
+            <td>
+              <span *ngIf="productoEditando !== p.id" class="stock-label">{{p.stock}} u.</span>
+              <input *ngIf="productoEditando === p.id" type="number" [(ngModel)]="prodAux.stock" class="edit-input sm">
+            </td>
+
+            <td class="acciones">
+              <div *ngIf="productoEditando !== p.id" class="btn-group">
+                <button class="btn-action edit" (click)="iniciarEdicion(p)">Editar</button>
+                <button class="btn-action del" (click)="eliminar(p.id!)">Eliminar</button>
+              </div>
+              <div *ngIf="productoEditando === p.id" class="btn-group">
+                <button class="btn-action save" (click)="guardarCambios()">Guardar</button>
+                <button class="btn-action cancel" (click)="cancelarEdicion()">Cancelar</button>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>

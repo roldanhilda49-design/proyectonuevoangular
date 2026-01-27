@@ -6,7 +6,7 @@ import { BienvenidaAdmin } from './modules/dashboard/bienvenida-admin/bienvenida
 import { BienvenidaUsuario } from './modules/dashboard/bienvenida-usuario/bienvenida-usuario';
 import { CambiarRol } from './modules/dashboard/bienvenida-admin/cambiar-rol/cambiar-rol';
 import { DesactivarUsuario } from './modules/dashboard/bienvenida-admin/desactivar-usuario/desactivar-usuario';
-import { GestionarCategoria } from './modules/dashboard/gestionar-categoria/gestionar-categoria';
+import { GestionarCategoria } from './modules/dashboard/gestionar-categoria/gestionar-categoria'
 import { GestionarProducto } from './modules/dashboard/gestionar-producto/gestionar-producto';
 import { ListarProductos } from './modules/dashboard/listar-productos/listar-productos';
 import {  AsistenciaComponent } from './modules/dashboard/asistencia/asistencia';

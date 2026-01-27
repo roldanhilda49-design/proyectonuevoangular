@@ -12,106 +12,62 @@ import { ProductoService } from '../../../services/producto';
 })
 export class GestionarProducto implements OnInit {
   categorias: Categoriamodels[] = [];
-  
   nuevoProducto: Productomodels = {
     nombre: '',
     precio: 0,
     stock: 0,
     idCategoria: '',
-    activo: true,
-    creadoEn: new Date()
+    imagenUrl: '',
+    fechaVencimiento: '',
+    activo: true // Ahora el modelo lo permite
   };
-imagenFile: File | null = null;
+  
   imagenPreview: string | null = null;
   mensajeExito: boolean = false;
 
   constructor(
-    private categoriaService: Categoria,
     private productoService: ProductoService,
+    private categoriaService: Categoria,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.categoriaService.ObtenerCategorias().subscribe(res => {
-      this.categorias = res;
+    this.categoriaService.ObtenerCategorias().subscribe(cat => {
+      this.categorias = cat;
       this.cdr.detectChanges();
     });
   }
-archivoSelecionado(event: any) {
-    const file = event.target.files[0];
 
-    if (!file) return;
+  guardarProducto() {
+    if(!this.nuevoProducto.nombre || !this.nuevoProducto.idCategoria) return;
 
-    this.imagenFile = file;
-
-    // Preview
-    const reader = new FileReader();
-    reader.onload = () => (this.imagenPreview = reader.result as string);
-    reader.readAsDataURL(file);
-  }
-async guardarProducto() {
-    debugger;
-    if (!this.imagenFile) {
-      alert('Seleccione una imagen');
-      return;
-    }
-    const categoriaSeleccionada = this.categorias.find(
-      (c) => c.id === this.nuevoProducto.idCategoria
-    );
-
-    if (categoriaSeleccionada) {
-      this.nuevoProducto.idCategoria = categoriaSeleccionada.nombre;
-    }
-
-    await this.productoService.agregarProductoConImagen(
-      this.nuevoProducto,
-      this.imagenFile
-    );
-
-    alert('Producto agregado');
-
-    this.nuevoProducto = {
-      nombre: '',
-      activo: true,
-      precio: 0,
-      stock: 0,
-      idCategoria: '',
-      creadoEn: new Date(),
-    };
-
-    this.imagenFile = null;
-    this.imagenPreview = null;
-  }
-/*   guardarProducto() {
-    
-    if (!this.nuevoProducto.nombre) return alert("Ingresa el nombre del producto");
-    if (!this.nuevoProducto.idCategoria) return alert("Selecciona una categoría");
-    
     this.productoService.agregarProducto(this.nuevoProducto).then(() => {
-      
       this.mensajeExito = true;
-
-     
-      this.nuevoProducto = { 
-        nombre: '', 
-        precio: 0, 
-        stock: 0, 
-        idCategoria: '', 
-        activo: true, 
-        creadoEn: new Date() 
+      this.nuevoProducto = {
+        nombre: '',
+        precio: 0,
+        stock: 0,
+        idCategoria: '',
+        imagenUrl: '',
+        fechaVencimiento: '',
+        activo: true
       };
-
-    
+      this.imagenPreview = null;
+      setTimeout(() => this.mensajeExito = false, 3000);
       this.cdr.detectChanges();
-      
-      setTimeout(() => {
-        this.mensajeExito = false;
-        this.cdr.detectChanges();
-      }, 3000);
-
-    }).catch(error => {
-      console.error("Error al guardar producto:", error);
-      alert("Error al guardar en el servidor");
     });
-  } */
+  }
+
+  archivoSelecionado(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagenPreview = e.target.result;
+        this.nuevoProducto.imagenUrl = e.target.result; // O subida a Storage
+        this.cdr.detectChanges();
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 }

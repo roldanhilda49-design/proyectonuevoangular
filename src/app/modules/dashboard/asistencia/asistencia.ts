@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, Injector, runInInjectionContext } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-asistencia',
@@ -13,29 +12,29 @@ export class AsistenciaComponent implements OnInit, OnDestroy {
   fechaActual = new Date();
   private timer: any;
 
+  // Variables de control
   entradaRegistrada = false;
   salidaRegistrada = false;
   horaEntrada: string | null = null;
   horaSalida: string | null = null;
   mensaje: string = '';
   historial: any[] = [];
-  
-  // VARIABLE CLAVE: Guarda el ID del documento para que la salida lo encuentre sí o sí
-  documentoIdActual: string | null = null;
 
   constructor(
     private firestore: AngularFirestore,
-    private injector: Injector 
+    private injector: Injector // Añadimos el inyector para evitar el error NG0203
   ) {}
 
   ngOnInit() {
+    // Reloj
     this.timer = setInterval(() => {
       this.horaActual = new Date().toLocaleTimeString();
     }, 1000);
 
+    // Ejecutamos la verificación después de que el componente cargue
     setTimeout(() => {
       this.verificarEstadoHoy();
-    }, 500);
+    }, 100);
   }
 
   ngOnDestroy() {
@@ -43,71 +42,53 @@ export class AsistenciaComponent implements OnInit, OnDestroy {
   }
 
   registrarEntrada() {
+    // Usamos el contexto de inyección explícito para evitar el error
     runInInjectionContext(this.injector, () => {
       const storageUser = localStorage.getItem('user');
       const userData = storageUser ? JSON.parse(storageUser) : null;
       const emailFinal = userData?.email || "Empleada1@gmail.com";
-      
-      const hoy = new Date();
-      const fechaTexto = hoy.toLocaleDateString();
-      const horaTexto = hoy.toLocaleTimeString();
+      const hoy = new Date().toLocaleDateString();
+      const hora = new Date().toLocaleTimeString();
 
       this.firestore.collection('asistencias').add({
         email: emailFinal,
-        fecha: fechaTexto,
-        horaEntrada: horaTexto,
-        horaSalida: null, // Se crea vacío para llenarlo después
+        fecha: hoy,
+        horaEntrada: hora,
+        horaSalida: null,
         timestamp: Date.now()
-      }).then((docRef) => {
-        // AQUÍ GUARDAMOS EL ID SECRETO DE FIREBASE
-        this.documentoIdActual = docRef.id;
-        
+      }).then(() => {
         this.mensaje = 'Entrada registrada con éxito ✅';
         this.entradaRegistrada = true;
-        this.horaEntrada = horaTexto;
+        this.horaEntrada = hora;
       }).catch(err => {
+        console.error(err);
         this.mensaje = 'Error al guardar entrada ❌';
       });
     });
   }
 
   registrarSalida() {
-    this.mensaje = 'Actualizando base de datos...';
-    
     runInInjectionContext(this.injector, () => {
-      const horaS = new Date().toLocaleTimeString();
+      const storageUser = localStorage.getItem('user');
+      const userData = storageUser ? JSON.parse(storageUser) : null;
+      const emailFinal = userData?.email || "Empleada1@gmail.com";
+      const hoy = new Date().toLocaleDateString();
 
-      // RUTA A: Si tenemos el ID guardado en memoria (lo más rápido)
-      if (this.documentoIdActual) {
-        this.firestore.collection('asistencias').doc(this.documentoIdActual).update({
-          horaSalida: horaS
-        }).then(() => {
-          this.mensaje = 'Salida registrada con éxito ✅';
-          this.salidaRegistrada = true;
-          this.horaSalida = horaS;
-        });
-      } 
-      // RUTA B: Si no hay ID (refrescaste la página), lo buscamos por el último registro
-      else {
-        const storageUser = localStorage.getItem('user');
-        const userData = storageUser ? JSON.parse(storageUser) : null;
-        const emailFinal = userData?.email || "Empleada1@gmail.com";
-
-        this.firestore.collection('asistencias', ref => 
-          ref.where('email', '==', emailFinal).orderBy('timestamp', 'desc').limit(1)
-        ).get().pipe(take(1)).subscribe(snapshot => {
-          if (!snapshot.empty) {
-            const doc = snapshot.docs[0];
-            doc.ref.update({ horaSalida: horaS }).then(() => {
-              this.mensaje = 'Salida registrada con éxito ✅';
-              this.salidaRegistrada = true;
-              this.horaSalida = horaS;
-            });
-          } else {
-            this.mensaje = 'No se encontró registro para actualizar ❌';
-          }
-        });
-      }
+      this.firestore.collection('asistencias', ref => 
+        ref.where('email', '==', emailFinal).where('fecha', '==', hoy)
+      ).get().subscribe(snapshot => {
+        if (!snapshot.empty) {
+          const docId = snapshot.docs[0].id;
+          const horaS = new Date().toLocaleTimeString();
+          this.firestore.collection('asistencias').doc(docId).update({
+            horaSalida: horaS
+          }).then(() => {
+            this.mensaje = 'Salida registrada con éxito ✅';
+            this.salidaRegistrada = true;
+            this.horaSalida = horaS;
+          });
+        }
+      });
     });
   }
 
@@ -119,14 +100,12 @@ export class AsistenciaComponent implements OnInit, OnDestroy {
 
       this.firestore.collection('asistencias', ref => 
         ref.where('email', '==', emailBusqueda).orderBy('timestamp', 'desc')
-      ).valueChanges({ idField: 'id' }).subscribe((data: any[]) => {
+      ).valueChanges().subscribe((data: any[]) => {
         this.historial = data;
         const hoy = new Date().toLocaleDateString();
         const registroHoy = data.find(r => r.fecha === hoy);
         
         if (registroHoy) {
-          // Si el sistema encuentra que hoy ya entraste, recupera el ID automáticamente
-          this.documentoIdActual = registroHoy.id;
           this.entradaRegistrada = true;
           this.horaEntrada = registroHoy.horaEntrada;
           if (registroHoy.horaSalida) {

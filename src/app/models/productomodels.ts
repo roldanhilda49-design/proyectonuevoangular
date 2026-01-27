@@ -3,8 +3,8 @@ export interface Productomodels {
   nombre: string;
   precio: number;
   stock: number;
-  idCategoria: string; // Relación con la categoría
-  activo: boolean;
-  creadoEn: Date;
-  imagenUrl?: String;
+  idCategoria: string;
+  imagenUrl?: string;
+  fechaVencimiento: string; 
+  activo: boolean; // Necesario para evitar errores de compilación
 }

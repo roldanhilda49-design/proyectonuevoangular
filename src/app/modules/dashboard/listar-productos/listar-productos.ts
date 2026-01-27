@@ -13,13 +13,12 @@ import { ProductoService } from '../../../services/producto';
 export class ListarProductos implements OnInit {
   productos: Productomodels[] = [];
   categorias: Categoriamodels[] = [];
+  productosFiltrados: Productomodels[] = []; 
+  terminoBusqueda: string = '';
 
-  // Variables para la edición
+  // PROPIEDADES PARA EDICIÓN
   productoEditando: string | null = null;
-  nombreEditado: string = '';
-  precioEditado: number = 0;
-  stockEditado: number = 0;
-  categoriaEditada: string = '';
+  prodAux: any = {}; // Objeto temporal para no modificar el original antes de guardar
 
   constructor(
     private productoService: ProductoService,
@@ -36,50 +35,61 @@ export class ListarProductos implements OnInit {
 
   cargarProductos() {
     this.productoService.obtenerProductos().subscribe(prod => {
-      this.productos = prod;
+      // Filtramos nulos para evitar cuadros negros
+      this.productos = prod.filter(p => p && p.nombre && p.nombre.trim() !== '');
+      this.filtrarProductos(); 
       this.cdr.detectChanges();
     });
+  }
+
+  filtrarProductos() {
+    const busqueda = this.terminoBusqueda.toLowerCase().trim();
+    this.productosFiltrados = this.productos.filter(p => p.nombre.toLowerCase().includes(busqueda));
+    this.cdr.detectChanges();
   }
 
   getNombreCategoria(id: string): string {
     const cat = this.categorias.find(c => c.id === id);
-    return cat ? cat.nombre : 'Sin categoría';
+    return cat ? cat.nombre : 'Sin Categoría';
   }
 
-  // --- LÓGICA DE EDICIÓN ---
+  // ALARMA DE 48 HORAS
+  getAlertaVencimiento(fecha: string) {
+    if (!fecha) return { clase: 'v-ok', mensaje: 'SEGURO', icono: '✅' };
+    const hoy = new Date();
+    hoy.setHours(0,0,0,0);
+    const fechaVenc = new Date(fecha);
+    const dif = Math.floor((fechaVenc.getTime() - hoy.getTime()) / (1000 * 60 * 60 * 24));
 
-  editarProducto(p: Productomodels) {
+    if (dif < 0) return { clase: 'v-critico', mensaje: 'VENCIDO', icono: '🚫' };
+    if (dif <= 2) return { clase: 'v-emergencia', mensaje: '48 HORAS', icono: '🔥' };
+    return { clase: 'v-ok', mensaje: 'SEGURO', icono: '✅' };
+  }
+
+  // MÉTODOS DE ACCIÓN (NUEVOS)
+  iniciarEdicion(p: Productomodels) {
     this.productoEditando = p.id!;
-    this.nombreEditado = p.nombre;
-    this.precioEditado = p.precio;
-    this.stockEditado = p.stock;
-    this.categoriaEditada = p.idCategoria;
-    this.cdr.detectChanges();
+    this.prodAux = { ...p }; // Clonamos el producto para editar
+  }
+
+  async guardarCambios() {
+    if (!this.productoEditando) return;
+    try {
+      await this.productoService.actualizarProducto(this.productoEditando, this.prodAux);
+      this.productoEditando = null;
+      alert('Producto actualizado con éxito');
+    } catch (error) {
+      console.error('Error al actualizar:', error);
+    }
   }
 
   cancelarEdicion() {
     this.productoEditando = null;
-    this.cdr.detectChanges();
   }
 
-  guardarEdicion(p: Productomodels) {
-    const datosActualizados = {
-      nombre: this.nombreEditado,
-      precio: this.precioEditado,
-      stock: this.stockEditado,
-      idCategoria: this.categoriaEditada
-    };
-
-    // Usamos el método actualizar del servicio (puedes usar el mismo que el de categorías)
-    this.productoService.actualizarProducto(p.id!, datosActualizados).then(() => {
-      this.productoEditando = null;
-      this.cdr.detectChanges();
-    });
-  }
-
-  eliminar(id: string) {
-    if(confirm("¿ESTÁ SEGURO QUE QUIERE ELIMINAR ESTE PRODUCTO?")) {
-      this.productoService.eliminarProducto(id);
+  async eliminar(id: string) {
+    if (confirm("¿Seguro que deseas eliminar este producto?")) {
+      await this.productoService.eliminarProducto(id);
     }
   }
 }
