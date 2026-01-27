@@ -1,0 +1,100 @@
+/* Contenedor de la tabla */
+.table-container {
+  padding: 10px;
+}
+
+.table-header {
+  margin-bottom: 25px;
+}
+
+.table-header h2 {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.table-header p {
+  color: #ff6600;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Estilo de la Tabla */
+.custom-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px; /* Espaciado entre filas */
+}
+
+.custom-table thead th {
+  background: transparent;
+  color: #666;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  padding: 15px;
+  border-bottom: 2px solid #333;
+}
+
+.custom-table tbody tr {
+  background: #252525; /* Gris un poco más claro que el fondo */
+  transition: transform 0.2s;
+}
+
+.custom-table tbody tr:hover {
+  transform: scale(1.01);
+  background: #2d2d2d;
+}
+
+.custom-table td {
+  padding: 15px;
+  color: #eee;
+  border: none;
+}
+
+/* Bordes redondeados para las filas */
+.custom-table td:first-child { border-radius: 10px 0 0 10px; }
+.custom-table td:last-child { border-radius: 0 10px 10px 0; }
+
+.user-email {
+  font-weight: 600;
+  color: #fff;
+}
+
+/* EL SELECTOR (DROPDOWN) */
+.role-select {
+  background: #1a1a1a;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+}
+
+.role-select:focus {
+  border-color: #ff6600;
+}
+
+/* EL BOTÓN DE ACTUALIZAR */
+.btn-update {
+  background: #ff6600;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(255, 102, 0, 0.2);
+}
+
+.btn-update:hover {
+  background: #e65c00;
+  box-shadow: 0 6px 15px rgba(255, 102, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.text-center { text-align: center; }

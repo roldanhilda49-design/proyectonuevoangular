@@ -1,0 +1,38 @@
+<div class="admin-content-card">
+  <div class="header-section">
+    <h2>Gestión de Activación</h2>
+    <p>Control de acceso y estado de cuenta para usuarios registrados</p>
+  </div>
+
+  <div class="table-responsive">
+    <table class="status-table">
+      <thead>
+        <tr>
+          <th>Usuario / Email</th>
+          <th>Rol</th>
+          <th>Estado Actual</th>
+          <th class="text-right">Acciones de Cuenta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of usuarios" [class.row-inactive]="!user.activo">
+          <td class="email-cell">{{ user.email }}</td>
+          <td><span class="role-badge">{{ user.rol }}</span></td>
+          <td>
+            <span class="status-pill" [ngClass]="user.activo ? 'pill-active' : 'pill-inactive'">
+              {{ user.activo ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td class="text-right">
+            <button 
+              (click)="toggleEstatus(user.uid, user.activo)"
+              [ngClass]="user.activo ? 'btn-deactivate' : 'btn-activate'"
+              class="action-btn">
+              {{ user.activo ? 'Suspender Acceso' : 'Habilitar Usuario' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

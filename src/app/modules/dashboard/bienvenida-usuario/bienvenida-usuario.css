@@ -1,0 +1,134 @@
+/* ESTRUCTURA PRINCIPAL */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #0a0a0a; /* Fondo Carbón */
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* MENÚ LATERAL (SIDEBAR) */
+.sidebar {
+  width: 260px;
+  background-color: #111111;
+  border-right: 1px solid #222;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+  padding-left: 10px;
+}
+
+.logo-v {
+  background-color: #ff6600;
+  color: white;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.brand-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* LINKS DEL MENÚ */
+.nav-group { margin-bottom: 30px; }
+.nav-group label {
+  display: block;
+  font-size: 0.7rem;
+  color: #444;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  padding-left: 10px;
+}
+
+.nav-link {
+  display: block;
+  padding: 12px 15px;
+  color: #888;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: 0.3s;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.nav-link:hover {
+  background-color: #1a1a1a;
+  color: #ff6600;
+}
+
+.nav-link.active {
+  background-color: rgba(255, 102, 0, 0.1);
+  color: #ff6600;
+  font-weight: 600;
+  border: 1px solid rgba(255, 102, 0, 0.2);
+}
+
+/* ÁREA DE CONTENIDO */
+.main-viewport {
+  flex: 1;
+  padding: 30px 50px;
+  overflow-y: auto;
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.header-titles p { color: #ff6600; font-weight: 700; font-size: 0.8rem; margin: 0; }
+.header-titles h2 { font-size: 1.8rem; margin: 5px 0 0 0; }
+
+/* CARD DE PERFIL Y LOGOUT */
+.admin-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #1a1a1a;
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: 1px solid #333;
+}
+
+.admin-text { text-align: right; }
+.admin-text .name { display: block; font-size: 0.8rem; font-weight: 700; color: #fff; }
+
+.btn-logout {
+  background: none;
+  border: none;
+  color: #ff4444;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  background: #ff6600;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.9rem;
+}

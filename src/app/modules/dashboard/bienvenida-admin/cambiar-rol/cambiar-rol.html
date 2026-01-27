@@ -1,0 +1,35 @@
+<div class="table-container">
+  <div class="table-header">
+    <h2>Gestión de Permisos</h2>
+    <p>Asigna roles de acceso a los usuarios del sistema</p>
+  </div>
+
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th>Email de Usuario</th>
+        <th>Rol Asignado</th>
+        <th class="text-center">Estado y Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td class="user-email">{{ usuario.email }}</td>
+        <td>
+          <div class="select-wrapper">
+            <select [(ngModel)]="rolSeleccionado[usuario.uid]" class="role-select">
+              <option value="admin">Administrador</option>
+              <option value="usuario">Personal</option>
+              <option value="cliente">Cliente Final</option>
+            </select>
+          </div>
+        </td>
+        <td class="text-center">
+          <button class="btn-update" (click)="cambiarRol(usuario.uid)">
+            Actualizar Rol
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

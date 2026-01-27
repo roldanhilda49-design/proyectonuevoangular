@@ -1,0 +1,90 @@
+/* Contenedor Principal */
+.admin-content-card {
+  background: #111;
+  padding: 25px;
+  border-radius: 15px;
+  border: 1px solid #222;
+}
+
+.header-section { margin-bottom: 25px; }
+.header-section h2 { color: #fff; font-size: 1.6rem; margin-bottom: 5px; }
+.header-section p { color: #ff6600; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+
+/* Tabla Pro */
+.status-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+.status-table thead th {
+  color: #555;
+  font-size: 0.75rem;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.status-table tbody tr {
+  background: #1a1c1e;
+  transition: all 0.3s ease;
+}
+
+.status-table td {
+  padding: 18px 20px;
+  color: #eee;
+  border: none;
+}
+
+/* Bordes redondeados para filas */
+.status-table td:first-child { border-radius: 12px 0 0 12px; }
+.status-table td:last-child { border-radius: 0 12px 12px 0; }
+
+.email-cell { font-weight: 600; color: #fff; }
+
+.role-badge {
+  background: #252525;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+/* Estado Pills */
+.status-pill {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.pill-active { background: rgba(0, 255, 128, 0.1); color: #00ff80; border: 1px solid rgba(0, 255, 128, 0.2); }
+.pill-inactive { background: rgba(255, 68, 68, 0.1); color: #ff4444; border: 1px solid rgba(255, 68, 68, 0.2); }
+
+/* Botones de Acción */
+.action-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-activate {
+  background: #ff6600;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(255, 102, 0, 0.2);
+}
+
+.btn-deactivate {
+  background: transparent;
+  color: #ff4444;
+  border: 1px solid #ff4444;
+}
+
+.action-btn:hover { transform: translateY(-2px); filter: brightness(1.2); }
+
+.text-right { text-align: right; }

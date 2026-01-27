@@ -1,0 +1,45 @@
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo-v">E</div>
+      <span class="brand-name">EmpleadoPanel</span>
+    </div>
+
+    <nav class="nav-menu">
+      <div class="nav-group">
+        <label>MI ASISTENCIA</label>
+        <a routerLink="/usuario/marcar-asistencia" routerLinkActive="active" class="nav-link">Control de Horario</a>
+        <a routerLink="/usuario/historial" routerLinkActive="active" class="nav-link">Mi Historial</a>
+      </div>
+
+      <div class="nav-group">
+        <label>CONSULTAS</label>
+        <a routerLink="/usuario/ver-productos" routerLinkActive="active" class="nav-link">Stock Disponible</a>
+      </div>
+    </nav>
+    <div class="version">v1.0.2 - 2026</div>
+  </aside>
+
+  <main class="main-viewport">
+    <header class="top-header">
+      <div class="header-titles">
+        <p>MODO EMPLEADO,</p>
+        <h2>Panel de Actividades</h2>
+      </div>
+
+      <div class="admin-profile-card">
+        <div class="admin-text">
+          <span class="name">EMPLEADO ACTIVO</span>
+          <button class="btn-logout" (click)="cerrarSesion()">Cerrar Sesión</button>
+        </div>
+        <div class="avatar-circle">EM</div>
+      </div>
+    </header>
+
+    <section class="content-area">
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </section>
+  </main>
+</div>
