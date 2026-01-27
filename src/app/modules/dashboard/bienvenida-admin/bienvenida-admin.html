@@ -1,0 +1,47 @@
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo-v">V</div>
+      <span class="brand-name">VentiaAdmin</span>
+    </div>
+
+    <nav class="nav-menu">
+      <div class="nav-group">
+        <label>SEGURIDAD</label>
+        <a routerLink="/admin/cambiar-rol" routerLinkActive="active" class="nav-link">Roles de Usuario</a>
+        <a routerLink="/admin/desactivar-usuario" routerLinkActive="active" class="nav-link">Bajas Usuario</a>
+      </div>
+
+      <div class="nav-group">
+        <label>LOGÍSTICA</label>
+        <a routerLink="/admin/gestionar-categoria" routerLinkActive="active" class="nav-link">Categorías</a>
+        <a routerLink="/admin/gestionar-producto" routerLinkActive="active" class="nav-link">Nuevo Producto</a>
+        <a routerLink="/admin/listar-productos" routerLinkActive="active" class="nav-link">Inventario</a>
+      </div>
+    </nav>
+    <div class="version">v1.0.2 - 2026</div>
+  </aside>
+
+  <main class="main-viewport">
+    <header class="top-header">
+      <div class="header-titles">
+        <p>BIENVENIDO DE NUEVO,</p>
+        <h2>Consola Administrativa</h2>
+      </div>
+
+      <div class="admin-profile-card">
+        <div class="admin-text">
+          <span class="name">ADMIN MASTER</span>
+          <button class="btn-logout" (click)="cerrarSesion()">Cerrar Sesión</button>
+        </div>
+        <div class="avatar-circle">AD</div>
+      </div>
+    </header>
+
+    <section class="content-area">
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </section>
+  </main>
+</div>

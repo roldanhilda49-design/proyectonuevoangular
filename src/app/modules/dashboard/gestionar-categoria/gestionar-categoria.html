@@ -1,0 +1,54 @@
+<div class="gestion-container">
+  <div class="header-section">
+    <h2>Control de Inventario</h2>
+    <p>Gestión de Categorías y Clasificación de Productos</p>
+  </div>
+
+  <div class="creation-card">
+    <h3>Crear Nueva Categoría</h3>
+    <div class="form-grid">
+      <div class="input-box">
+        <label>Nombre de Categoría</label>
+        <input type="text" placeholder="Ej: Bebidas" [(ngModel)]="nuevaCategoria.nombre" />
+      </div>
+      <div class="input-box">
+        <label>Descripción Breve</label>
+        <input type="text" placeholder="Ej: Refrescos y jugos" [(ngModel)]="nuevaCategoria.descripcion" />
+      </div>
+      <button class="btn-main" (click)="guardarCategoria()">Agregar Categoría</button>
+    </div>
+  </div>
+
+  <div class="category-grid">
+    <div class="category-item" *ngFor="let c of categorias" [class.editing]="categoriaEditando === c.id">
+      
+      <div *ngIf="categoriaEditando !== c.id" class="view-mode">
+        <div class="cat-info">
+          <span class="status-dot" [class.active]="c.activo"></span>
+          <div class="text">
+            <strong>{{ c.nombre }}</strong>
+            <p>{{ c.descripcion }}</p>
+          </div>
+        </div>
+        <div class="cat-actions">
+          <button class="btn-icon edit" (click)="editarCategoria(c)">Editar</button>
+          <button class="btn-icon toggle" (click)="alterarCategoria(c)">
+            {{ c.activo ? "Desactivar" : "Activar" }}
+          </button>
+          <button class="btn-icon delete" (click)="eliminarCategoria(c.id!)">Eliminar</button>
+        </div>
+      </div>
+
+      <div *ngIf="categoriaEditando === c.id" class="edit-mode">
+        <div class="edit-inputs">
+          <input [(ngModel)]="nombreEditado" placeholder="Nuevo nombre" />
+          <input [(ngModel)]="descripcionEditada" placeholder="Nueva descripción" />
+        </div>
+        <div class="edit-buttons">
+          <button class="btn-save" (click)="guardarEdicion(c)">Guardar</button>
+          <button class="btn-cancel" (click)="cancelarEdicion()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

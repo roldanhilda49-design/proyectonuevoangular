@@ -1,0 +1,101 @@
+/* CONTENEDOR PRINCIPAL */
+.gestion-container { padding: 5px; }
+
+.header-section { margin-bottom: 30px; }
+.header-section h2 { color: #fff; font-size: 1.8rem; }
+.header-section p { color: #ff6600; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; }
+
+/* TARJETA DE CREACIÓN */
+.creation-card {
+  background: #1a1c1e;
+  padding: 25px;
+  border-radius: 15px;
+  border: 1px solid #333;
+  margin-bottom: 40px;
+}
+
+.creation-card h3 { color: #fff; font-size: 1rem; margin-bottom: 20px; }
+
+.form-grid {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.input-box { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.input-box label { color: #666; font-size: 0.7rem; font-weight: 800; }
+
+.input-box input, .edit-inputs input {
+  background: #0d0d0d;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.input-box input:focus, .edit-inputs input:focus {
+  border-color: #ff6600;
+  box-shadow: 0 0 10px rgba(255, 102, 0, 0.1);
+}
+
+.btn-main {
+  background: #ff6600;
+  color: white;
+  border: none;
+  padding: 13px 25px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* LISTA DE CATEGORÍAS */
+.category-grid { display: flex; flex-direction: column; gap: 12px; }
+
+.category-item {
+  background: #1a1c1e;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 15px 25px;
+  transition: 0.3s;
+}
+
+.category-item:hover { border-color: #444; background: #1f2124; }
+
+/* VISTA DE ITEM */
+.view-mode { display: flex; justify-content: space-between; align-items: center; }
+
+.cat-info { display: flex; align-items: center; gap: 15px; }
+
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ff4444; }
+.status-dot.active { background: #00ff80; box-shadow: 0 0 8px #00ff80; }
+
+.cat-info strong { color: #fff; font-size: 1rem; display: block; }
+.cat-info p { color: #777; font-size: 0.85rem; }
+
+/* BOTONES DE ACCIÓN */
+.cat-actions { display: flex; gap: 10px; }
+
+.btn-icon {
+  background: transparent;
+  border: 1px solid #333;
+  color: #aaa;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-icon.edit:hover { color: #ff6600; border-color: #ff6600; }
+.btn-icon.delete:hover { color: #ff4444; border-color: #ff4444; }
+
+/* MODO EDICIÓN */
+.editing { border-color: #ff6600 !important; background: #121212; }
+.edit-mode { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.edit-inputs { flex: 1; display: flex; gap: 10px; }
+.edit-inputs input { flex: 1; }
+
+.btn-save { background: #00ff80; border: none; padding: 8px 15px; border-radius: 6px; font-weight: 700; cursor: pointer; }
+.btn-cancel { background: transparent; color: #777; border: none; cursor: pointer; font-size: 0.8rem; }

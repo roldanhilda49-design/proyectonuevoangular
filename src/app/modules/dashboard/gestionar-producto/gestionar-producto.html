@@ -1,0 +1,51 @@
+<div class="gestionar-container">
+  <div class="card-form">
+    <h3>Registrar Nuevo Producto</h3>
+    
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Nombre del Producto</label>
+        <input type="text" [(ngModel)]="nuevoProducto.nombre" placeholder="Ej. Hamburguesa Doble">
+      </div>
+
+      <div class="form-group">
+        <label>Categoría</label>
+        <select [(ngModel)]="nuevoProducto.idCategoria">
+          <option value="">Seleccione una categoría</option>
+          <option *ngFor="let cat of categorias" [value]="cat.id">{{cat.nombre}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Fecha de Vencimiento</label>
+        <input type="date" [(ngModel)]="nuevoProducto.fechaVencimiento" class="date-input">
+      </div>
+
+      <div class="form-group">
+        <label>Precio (Bs)</label>
+        <input type="number" [(ngModel)]="nuevoProducto.precio">
+      </div>
+
+      <div class="form-group">
+        <label>Stock Inicial</label>
+        <input type="number" [(ngModel)]="nuevoProducto.stock">
+      </div>
+
+      <div class="form-group full-width">
+        <label>Imagen del Producto</label>
+        <input type="file" (change)="archivoSelecionado($event)" accept="image/*">
+        <div class="preview-box" *ngIf="imagenPreview">
+          <img [src]="imagenPreview" alt="Vista previa">
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-save" (click)="guardarProducto()">Añadir a Lista de Productos</button>
+    </div>
+
+    <div class="alert-success" *ngIf="mensajeExito">
+      ¡Producto registrado exitosamente!
+    </div>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+.asistencia-container {
+  max-width: 900px;
+  margin: 0 auto;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Reloj Estilo Cyberpunk */
+.reloj-card {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 25px;
+  padding: 50px 20px;
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.reloj-digital {
+  font-size: 6rem;
+  font-weight: 900;
+  color: #ff6600;
+  font-family: 'Courier New', Courier, monospace;
+  text-shadow: 0 0 30px rgba(255, 102, 0, 0.4);
+  line-height: 1;
+}
+
+.reloj-badge {
+  display: inline-block;
+  background: #ff6600;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  margin-top: 15px;
+  letter-spacing: 1px;
+}
+
+/* Grid de Botones */
+.acciones-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.btn-check {
+  width: 100%;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 25px;
+  border-radius: 18px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-check .icon {
+  font-size: 2rem;
+  background: #222;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+.btn-info { text-align: left; }
+.btn-info strong { display: block; font-size: 1.1rem; letter-spacing: 0.5px; }
+.btn-info small { color: #666; font-size: 0.8rem; margin-top: 4px; display: block; }
+
+/* Estados Hovers */
+.entrada:hover:not(:disabled) { border-color: #00ff88; transform: translateY(-3px); }
+.entrada:hover:not(:disabled) .icon { color: #00ff88; }
+
+.salida:hover:not(:disabled) { border-color: #ff4444; transform: translateY(-3px); }
+.salida:hover:not(:disabled) .icon { color: #ff4444; }
+
+.btn-check:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
+
+/* Alerta */
+.status-alert {
+  margin-top: 30px;
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid #00ff88;
+  color: #00ff88;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 600;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

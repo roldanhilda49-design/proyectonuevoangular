@@ -1,0 +1,89 @@
+/* RESET Y ESTRUCTURA */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+.admin-layout {
+  display: flex;
+  height: 100vh;
+  background: #121212;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 260px;
+  background: #1a1a1a;
+  border-right: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand { padding: 30px 20px; display: flex; align-items: center; gap: 10px; }
+.logo-v { background: #ff6600; color: #fff; padding: 5px 12px; border-radius: 6px; font-weight: bold; }
+.brand-name { color: #fff; font-weight: bold; font-size: 1.2rem; }
+
+.nav-group label { color: #666; font-size: 0.7rem; font-weight: 800; padding: 15px 25px 5px; display: block; }
+
+.nav-link {
+  display: block;
+  padding: 12px 25px;
+  color: #bbb;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.nav-link:hover { color: #ff6600; background: rgba(255,102,0,0.1); }
+
+/* BOTÓN ACTIVO */
+.active {
+  color: #fff !important;
+  background: #ff6600 !important;
+  font-weight: bold;
+  border-radius: 0 25px 25px 0;
+  margin-right: 10px;
+}
+
+/* HEADER */
+.main-viewport { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.top-header {
+  height: 80px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.header-titles p { color: #ff6600; font-size: 0.7rem; font-weight: bold; }
+.header-titles h2 { color: #fff; font-size: 1.4rem; }
+
+/* PERFIL */
+.admin-profile-card { display: flex; align-items: center; gap: 15px; background: #252525; padding: 8px 15px; border-radius: 12px; border: 1px solid #444; }
+.admin-text { text-align: right; }
+.name { color: #fff; font-size: 0.8rem; font-weight: bold; display: block; }
+.btn-logout { background: none; border: none; color: #ff4444; font-size: 0.7rem; cursor: pointer; text-decoration: underline; }
+.avatar-circle { background: #ff6600; color: #fff; width: 35px; height: 35px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+/* ÁREA DONDE APARECE EL CONTENIDO DE LOS BOTONES */
+.content-area {
+  flex: 1;
+  padding: 30px;
+  background: #121212; /* Fondo oscuro */
+  overflow-y: auto;
+}
+
+.content-wrapper {
+  background: #1e1e1e; /* Fondo de la tarjeta de contenido */
+  border-radius: 15px;
+  padding: 30px;
+  min-height: 100%;
+  color: #ffffff; /* FORZA A QUE TODO EL TEXTO CARGADO SEA BLANCO */
+  border: 1px solid #333;
+}
+
+/* Estilo para que tus tablas y textos dentro del contenido sean legibles */
+.content-wrapper h1, .content-wrapper h2, .content-wrapper p, .content-wrapper td, .content-wrapper th {
+  color: #ffffff !important;
+}
+
+.version { margin-top: auto; padding: 20px; color: #444; font-size: 0.7rem; }

@@ -1,0 +1,223 @@
+/* =========================================
+   CONTENEDOR PRINCIPAL Y CARDS
+   ========================================= */
+.lista-productos-container { 
+    padding: 20px; 
+}
+
+.card-list {
+    background: #1a1c1e;
+    border-radius: 20px;
+    border: 1px solid #333;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 20px;
+}
+
+.list-header h3 { 
+    color: #fff; 
+    margin: 0; 
+    font-size: 1.4rem; 
+    letter-spacing: 0.5px;
+}
+
+.product-count { 
+    color: #ff6600; 
+    font-size: 0.75rem; 
+    font-weight: 900;
+    text-transform: uppercase;
+    background: rgba(255, 102, 0, 0.1);
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+/* =========================================
+   SISTEMA DE ALARMAS (48H Y VENCIDOS)
+   ========================================= */
+.badge-alarma {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+/* Alarma Emergencia: 48 Horas antes */
+.v-emergencia {
+    background: #ff0000;
+    color: #fff;
+    border: 1px solid #fff;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+    animation: flash-critical 0.6s infinite; 
+}
+
+/* Alarma Crítica: Ya vencido */
+.v-critico {
+    background: rgba(255, 0, 0, 0.15);
+    color: #ff4444;
+    border: 1px solid #ff4444;
+    animation: alert-pulse 1.5s infinite;
+}
+
+/* Estado Seguro */
+.v-ok {
+    background: rgba(0, 255, 128, 0.1);
+    color: #00ff80;
+    border: 1px solid rgba(0, 255, 128, 0.3);
+}
+
+@keyframes alert-pulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.02); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes flash-critical {
+    0% { background: #ff0000; box-shadow: 0 0 5px #ff0000; }
+    50% { background: #660000; box-shadow: 0 0 20px #ff0000; }
+    100% { background: #ff0000; box-shadow: 0 0 5px #ff0000; }
+}
+
+/* =========================================
+   VISIBILIDAD DE CATEGORÍA DESTACADA
+   ========================================= */
+.badge-cat-main {
+    background: rgba(255, 102, 0, 0.15); 
+    color: #ff6600;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    border: 1px solid rgba(255, 102, 0, 0.3);
+    text-transform: uppercase;
+    display: inline-block;
+    margin-top: 6px;
+}
+
+/* =========================================
+   TABLA E IMÁGENES
+   ========================================= */
+.table-prod {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+}
+
+.table-prod thead th {
+    color: #666;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    padding: 10px 15px;
+}
+
+.table-prod tbody tr {
+    background: #25282c;
+    transition: all 0.3s ease;
+}
+
+.table-prod td {
+    padding: 15px;
+    color: #eee;
+    vertical-align: middle;
+}
+
+/* Bordes redondeados por fila */
+.table-prod td:first-child { border-radius: 12px 0 0 12px; }
+.table-prod td:last-child { border-radius: 0 12px 12px 0; }
+
+.img-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #333;
+    background: #000;
+}
+
+.img-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =========================================
+   MODO EDICIÓN (INLINE EDITING)
+   ========================================= */
+.row-editing { 
+    background: #0d0d0d !important; 
+    outline: 2px solid #ff6600; 
+    box-shadow: 0 0 20px rgba(255, 102, 0, 0.2);
+}
+
+.edit-input {
+    background: #1a1c1e;
+    border: 1px solid #444;
+    color: #00ff80; 
+    padding: 8px;
+    border-radius: 6px;
+    width: 100%;
+    outline: none;
+    font-size: 0.85rem;
+}
+
+.edit-input:focus {
+    border-color: #ff6600;
+}
+
+.edit-input.sm { width: 80px; text-align: center; }
+.mb-5 { margin-bottom: 5px; }
+
+/* =========================================
+   BOTONES DE ACCIÓN
+   ========================================= */
+.acciones { 
+    display: flex; 
+    gap: 10px; 
+    justify-content: center; 
+}
+
+.btn-group { display: flex; gap: 8px; }
+
+.btn-action {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+    text-transform: uppercase;
+}
+
+.btn-action.edit { background: #333; color: #fff; }
+.btn-action.del { background: rgba(255, 68, 68, 0.1); color: #ff4444; }
+.btn-action.save { background: #00ff80; color: #000; font-weight: 900; }
+.btn-action.cancel { background: #444; color: #fff; }
+
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* =========================================
+   TEXTOS Y PRECIOS
+   ========================================= */
+.prod-name { color: #fff; font-size: 1rem; display: block; }
+.price-cell { font-weight: 800; color: #00ff80; font-size: 1.1rem; }
+.stock-label { color: #aaa; font-weight: 600; }
+.vencimiento-text { color: #888; font-family: monospace; }
+
+/* Ocultar filas fantasma */
+tr:empty { display: none; }

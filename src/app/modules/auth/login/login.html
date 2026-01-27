@@ -1,0 +1,48 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="brand-section">
+      <div class="logo-box">V</div>
+      <h1>Ventia<span>Retail</span></h1>
+      <p>Gestión de Tienda & Inventario</p>
+    </div>
+
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+      <div class="input-group">
+        <label>Correo electrónico</label>
+        <input 
+          type="email" 
+          name="email" 
+          [(ngModel)]="email" 
+          placeholder="nombre@tienda.com" 
+          required 
+        />
+      </div>
+
+      <div class="input-group">
+        <div class="label-row">
+          <label>Contraseña</label>
+          <span class="forgot">¿Olvidaste tu clave?</span>
+        </div>
+        <input 
+          type="password" 
+          name="password" 
+          [(ngModel)]="password" 
+          placeholder="••••••••" 
+          required 
+        />
+      </div>
+
+      <button type="submit" class="btn-main" [disabled]="!loginForm.form.valid">
+        Entrar al Sistema
+      </button>
+
+      <div class="divider">ó</div>
+
+      <button type="button" (click)="irARegistro()" class="btn-alt">
+        Registrar nueva sucursal
+      </button>
+    </form>
+
+    <p class="copyright">© 2026 Ventia POS System</p>
+  </div>
+</div>

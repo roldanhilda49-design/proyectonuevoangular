@@ -1,0 +1,45 @@
+<div class="asistencia-container">
+  <div class="header-asistencia">
+    <div class="header-titles">
+      <p>CONTROL DE JORNADA</p>
+      <h2>{{ fechaActual | date:'fullDate' | uppercase }}</h2>
+    </div>
+  </div>
+
+  <div class="reloj-card">
+    <div class="reloj-digital">{{ horaActual }}</div>
+    <div class="reloj-badge">HORA OFICIAL DEL SISTEMA</div>
+  </div>
+
+  <div class="acciones-grid">
+    <div class="action-card">
+      <button class="btn-check entrada" 
+              (click)="registrarEntrada()" 
+              [disabled]="entradaRegistrada">
+        <span class="icon">➜</span>
+        <div class="btn-info">
+          <strong>MARCAR ENTRADA</strong>
+          <small *ngIf="horaEntrada">Registrado: {{ horaEntrada }}</small>
+          <small *ngIf="!horaEntrada">Pendiente de registro</small>
+        </div>
+      </button>
+    </div>
+
+    <div class="action-card">
+      <button class="btn-check salida" 
+              (click)="registrarSalida()" 
+              [disabled]="!entradaRegistrada || salidaRegistrada">
+        <span class="icon">✖</span>
+        <div class="btn-info">
+          <strong>MARCAR SALIDA</strong>
+          <small *ngIf="horaSalida">Registrado: {{ horaSalida }}</small>
+          <small *ngIf="!horaSalida">Disponible tras entrada</small>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <div class="status-alert" *ngIf="mensaje">
+    <span class="check-icon">✓</span> {{ mensaje }}
+  </div>
+</div>
