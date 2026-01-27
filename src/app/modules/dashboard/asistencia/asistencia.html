@@ -1,45 +1,44 @@
 <div class="asistencia-container">
-  <div class="header-asistencia">
-    <div class="header-titles">
-      <p>CONTROL DE JORNADA</p>
-      <h2>{{ fechaActual | date:'fullDate' | uppercase }}</h2>
+  <div class="header-panel">
+    <span class="badge-modo">MODO EMPLEADO</span>
+    <h2 class="titulo-panel">Panel de Actividades</h2>
+  </div>
+
+  <div class="reloj-wrapper">
+    <p class="fecha-texto">{{ fechaEspanol | uppercase }}</p>
+    <h1 class="reloj-display">{{ reloj$ | async }}</h1>
+    <div class="reloj-footer">
+      <span class="pulso-online"></span> HORA OFICIAL DEL SISTEMA
     </div>
   </div>
 
-  <div class="reloj-card">
-    <div class="reloj-digital">{{ horaActual }}</div>
-    <div class="reloj-badge">HORA OFICIAL DEL SISTEMA</div>
-  </div>
-
-  <div class="acciones-grid">
-    <div class="action-card">
-      <button class="btn-check entrada" 
-              (click)="registrarEntrada()" 
-              [disabled]="entradaRegistrada">
-        <span class="icon">➜</span>
-        <div class="btn-info">
-          <strong>MARCAR ENTRADA</strong>
-          <small *ngIf="horaEntrada">Registrado: {{ horaEntrada }}</small>
-          <small *ngIf="!horaEntrada">Pendiente de registro</small>
-        </div>
-      </button>
+  <div class="grid-acciones">
+    <div class="card-btn" [class.disabled]="entradaHecha">
+      <div class="icon-box entrada">
+        <i class="fas fa-sign-in-alt"></i>
+      </div>
+      <div class="btn-content">
+        <button [disabled]="entradaHecha" (click)="registrarEntrada()">
+          {{ entradaHecha ? 'REGISTRADO' : 'MARCAR ENTRADA' }}
+        </button>
+        <span class="info-tag" *ngIf="entradaHecha">Hora: {{ infoEntrada }}</span>
+      </div>
     </div>
 
-    <div class="action-card">
-      <button class="btn-check salida" 
-              (click)="registrarSalida()" 
-              [disabled]="!entradaRegistrada || salidaRegistrada">
-        <span class="icon">✖</span>
-        <div class="btn-info">
-          <strong>MARCAR SALIDA</strong>
-          <small *ngIf="horaSalida">Registrado: {{ horaSalida }}</small>
-          <small *ngIf="!horaSalida">Disponible tras entrada</small>
-        </div>
-      </button>
+    <div class="card-btn" [class.disabled]="!entradaHecha || salidaHecha">
+      <div class="icon-box salida">
+        <i class="fas fa-door-open"></i>
+      </div>
+      <div class="btn-content">
+        <button [disabled]="!entradaHecha || salidaHecha" (click)="registrarSalida()">
+          {{ salidaHecha ? 'REGISTRADO' : 'MARCAR SALIDA' }}
+        </button>
+        <span class="info-tag" *ngIf="salidaHecha">Hora: {{ infoSalida }}</span>
+      </div>
     </div>
   </div>
 
-  <div class="status-alert" *ngIf="mensaje">
-    <span class="check-icon">✓</span> {{ mensaje }}
+  <div class="feedback-toast" *ngIf="mensajeFeedback">
+    {{ mensajeFeedback }}
   </div>
 </div>

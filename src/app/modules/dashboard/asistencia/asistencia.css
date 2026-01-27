@@ -1,97 +1,143 @@
 .asistencia-container {
-  max-width: 900px;
+  padding: 20px;
+  max-width: 1000px;
   margin: 0 auto;
-  animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Reloj Estilo Cyberpunk */
-.reloj-card {
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 25px;
-  padding: 50px 20px;
-  text-align: center;
+.header-panel {
   margin-bottom: 30px;
-  position: relative;
-  overflow: hidden;
 }
 
-.reloj-digital {
-  font-size: 6rem;
-  font-weight: 900;
-  color: #ff6600;
-  font-family: 'Courier New', Courier, monospace;
-  text-shadow: 0 0 30px rgba(255, 102, 0, 0.4);
-  line-height: 1;
-}
-
-.reloj-badge {
-  display: inline-block;
-  background: #ff6600;
-  color: white;
-  padding: 4px 12px;
-  border-radius: 5px;
+.badge-modo {
+  color: #ff7300;
   font-size: 0.7rem;
   font-weight: 800;
-  margin-top: 15px;
   letter-spacing: 1px;
 }
 
-/* Grid de Botones */
-.acciones-grid {
+.titulo-panel {
+  color: white;
+  font-size: 2rem;
+  margin: 5px 0;
+}
+
+/* RELOJ ESTILO NEÓN */
+.reloj-wrapper {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.fecha-texto {
+  color: #888;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+.reloj-display {
+  font-size: 6rem;
+  color: #ff7300;
+  font-weight: 800;
+  text-shadow: 0 0 20px rgba(255, 115, 0, 0.4);
+  font-family: 'Courier New', monospace;
+  margin: 15px 0;
+}
+
+.reloj-footer {
+  background: #ff7300;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 5px;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+/* BOTONES Y TARJETAS */
+.grid-acciones {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
-.btn-check {
-  width: 100%;
-  background: #1a1a1a;
-  border: 1px solid #333;
+.card-btn {
+  background: #181818;
+  border: 1px solid #282828;
   padding: 25px;
-  border-radius: 18px;
-  color: white;
+  border-radius: 15px;
   display: flex;
   align-items: center;
   gap: 20px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: 0.3s;
 }
 
-.btn-check .icon {
-  font-size: 2rem;
-  background: #222;
-  width: 50px;
-  height: 50px;
+.card-btn.active {
+  border-color: #444;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.card-btn.disabled {
+  opacity: 0.6;
+}
+
+.icon-box {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
+  font-size: 1.5rem;
 }
 
-.btn-info { text-align: left; }
-.btn-info strong { display: block; font-size: 1.1rem; letter-spacing: 0.5px; }
-.btn-info small { color: #666; font-size: 0.8rem; margin-top: 4px; display: block; }
+.icon-box.entrada { background: rgba(40, 167, 69, 0.1); color: #28a745; }
+.icon-box.salida { background: rgba(220, 53, 69, 0.1); color: #dc3545; }
 
-/* Estados Hovers */
-.entrada:hover:not(:disabled) { border-color: #00ff88; transform: translateY(-3px); }
-.entrada:hover:not(:disabled) .icon { color: #00ff88; }
-
-.salida:hover:not(:disabled) { border-color: #ff4444; transform: translateY(-3px); }
-.salida:hover:not(:disabled) .icon { color: #ff4444; }
-
-.btn-check:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
-
-/* Alerta */
-.status-alert {
-  margin-top: 30px;
-  background: rgba(0, 255, 136, 0.1);
-  border: 1px solid #00ff88;
-  color: #00ff88;
-  padding: 15px;
-  border-radius: 12px;
-  text-align: center;
-  font-weight: 600;
+.btn-content {
+  display: flex;
+  flex-direction: column;
 }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.btn-content button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 5px;
+}
+
+.btn-content button:disabled { cursor: not-allowed; }
+
+.info-tag {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.info-tag.warning { color: #888; font-style: italic; }
+
+/* FEEDBACK */
+.feedback-toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #28a745;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 50px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { bottom: -50px; }
+  to { bottom: 20px; }
+}
