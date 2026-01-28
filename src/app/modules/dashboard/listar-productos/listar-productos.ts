@@ -1,8 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Productomodels } from '../../../models/productomodels';
 import { Categoriamodels } from '../../../models/categoriamodels';
-import { Categoria } from '../../../services/categoria';
 import { ProductoService } from '../../../services/producto';
+import { Categoria } from '../../../services/categoria';
+import { CarritoService } from '../../../core/services/carrito';
 
 @Component({
   selector: 'app-listar-productos',
@@ -15,14 +16,13 @@ export class ListarProductos implements OnInit {
   categorias: Categoriamodels[] = [];
   productosFiltrados: Productomodels[] = []; 
   terminoBusqueda: string = '';
-
-  // PROPIEDADES PARA EDICIÓN
   productoEditando: string | null = null;
-  prodAux: any = {}; // Objeto temporal para no modificar el original antes de guardar
+  prodAux: any = {};
 
   constructor(
     private productoService: ProductoService,
     private categoriaService: Categoria,
+    private carritoService: CarritoService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -33,18 +33,33 @@ export class ListarProductos implements OnInit {
     });
   }
 
+  // ESTA ES LA FUNCIÓN QUE TE PEDÍA EL ERROR TS2339
+  agregarAlCarrito(p: Productomodels) {
+    if (p.stock > 0) {
+      this.carritoService.agregar(p);
+      alert(`Añadido al carrito: ${p.nombre}`);
+    } else {
+      alert('Este producto no tiene stock disponible.');
+    }
+  }
+
   cargarProductos() {
-    this.productoService.obtenerProductos().subscribe(prod => {
-      // Filtramos nulos para evitar cuadros negros
-      this.productos = prod.filter(p => p && p.nombre && p.nombre.trim() !== '');
-      this.filtrarProductos(); 
-      this.cdr.detectChanges();
+    this.productoService.obtenerProductos().subscribe({
+      next: (prod) => {
+        // Limpiamos la lista de nulos
+        this.productos = prod.filter(p => p && p.nombre && p.nombre.trim() !== '');
+        this.filtrarProductos(); 
+        this.cdr.detectChanges(); // Vital para refrescar el panel
+      },
+      error: (err) => console.error("Error al cargar productos:", err)
     });
   }
 
   filtrarProductos() {
     const busqueda = this.terminoBusqueda.toLowerCase().trim();
-    this.productosFiltrados = this.productos.filter(p => p.nombre.toLowerCase().includes(busqueda));
+    this.productosFiltrados = this.productos.filter(p => 
+      p.nombre.toLowerCase().includes(busqueda)
+    );
     this.cdr.detectChanges();
   }
 
@@ -53,23 +68,21 @@ export class ListarProductos implements OnInit {
     return cat ? cat.nombre : 'Sin Categoría';
   }
 
-  // ALARMA DE 48 HORAS
   getAlertaVencimiento(fecha: string) {
     if (!fecha) return { clase: 'v-ok', mensaje: 'SEGURO', icono: '✅' };
     const hoy = new Date();
     hoy.setHours(0,0,0,0);
     const fechaVenc = new Date(fecha);
     const dif = Math.floor((fechaVenc.getTime() - hoy.getTime()) / (1000 * 60 * 60 * 24));
-
+    
     if (dif < 0) return { clase: 'v-critico', mensaje: 'VENCIDO', icono: '🚫' };
     if (dif <= 2) return { clase: 'v-emergencia', mensaje: '48 HORAS', icono: '🔥' };
     return { clase: 'v-ok', mensaje: 'SEGURO', icono: '✅' };
   }
 
-  // MÉTODOS DE ACCIÓN (NUEVOS)
   iniciarEdicion(p: Productomodels) {
     this.productoEditando = p.id!;
-    this.prodAux = { ...p }; // Clonamos el producto para editar
+    this.prodAux = { ...p };
   }
 
   async guardarCambios() {
@@ -77,19 +90,23 @@ export class ListarProductos implements OnInit {
     try {
       await this.productoService.actualizarProducto(this.productoEditando, this.prodAux);
       this.productoEditando = null;
-      alert('Producto actualizado con éxito');
-    } catch (error) {
-      console.error('Error al actualizar:', error);
+      alert("Cambios guardados con éxito.");
+    } catch (error) { 
+      console.error("Error al guardar:", error); 
     }
   }
 
-  cancelarEdicion() {
-    this.productoEditando = null;
+  cancelarEdicion() { 
+    this.productoEditando = null; 
   }
 
   async eliminar(id: string) {
     if (confirm("¿Seguro que deseas eliminar este producto?")) {
-      await this.productoService.eliminarProducto(id);
+      try {
+        await this.productoService.eliminarProducto(id);
+      } catch (error) {
+        console.error("Error al eliminar:", error);
+      }
     }
   }
 }

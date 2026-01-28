@@ -13,6 +13,7 @@ import { AsistenciaComponent } from './asistencia/asistencia';
 import { CambiarRol } from './bienvenida-admin/cambiar-rol/cambiar-rol';
 import { DesactivarUsuario } from './bienvenida-admin/desactivar-usuario/desactivar-usuario';
 import { HistorialComponent } from './asistencia/historial/historial';
+import { BienvenidaCliente } from './bienvenida-cliente/bienvenida-cliente';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { HistorialComponent } from './asistencia/historial/historial';
     AsistenciaComponent,
     CambiarRol,
     DesactivarUsuario,
-    HistorialComponent
+    HistorialComponent,
+    BienvenidaCliente
   ],
   imports: [
     CommonModule, // Activa pipes y directivas comunes

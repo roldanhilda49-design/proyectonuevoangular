@@ -1,0 +1,44 @@
+<div class="tienda-wrapper">
+  <header class="main-nav">
+    <div class="logo">🚀 Tecnoem<span>Shop</span></div>
+    <div class="nav-actions">
+      <button class="btn-premium-orange" (click)="toggleCarrito()">
+        {{ mostrarCarrito ? '✖ Cerrar' : '🛒 Mi Carrito' }}
+      </button>
+      <button class="btn-exit-glass" (click)="salir()">Salir</button>
+    </div>
+  </header>
+
+  <div class="main-grid" [class.show-cart]="mostrarCarrito">
+    
+    <section class="products-section">
+      <h2 class="section-title">Nuestros Productos</h2>
+      <div class="cards-container">
+        <div *ngFor="let p of productos" class="product-card">
+          <div class="stock-pill">{{ p.stock }} disponibles</div>
+          <div class="img-container">
+            <img [src]="p.imagenUrl || 'assets/no-image.png'" alt="producto">
+          </div>
+          <div class="product-details">
+            <h3>{{ p.nombre }}</h3>
+            <div class="price-row">
+              <span class="price-text">Bs {{ p.precio }}</span>
+              <button class="btn-add-glow" (click)="agregar(p)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="cart-panel" [class.active]="mostrarCarrito">
+      <div class="cart-sticky-header">
+        <h2>Mi Pedido</h2>
+        <button class="btn-close-dark" (click)="toggleCarrito()">×</button>
+      </div>
+      <div class="cart-scroll-area">
+        <router-outlet></router-outlet>
+      </div>
+    </aside>
+
+  </div>
+</div>

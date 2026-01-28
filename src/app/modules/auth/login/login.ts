@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth';
 import { Router } from '@angular/router';
 
@@ -8,11 +8,17 @@ import { Router } from '@angular/router';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   email: string = '';
   password: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    // Al cargar el login, borramos cualquier rastro de usuario previo
+    // Esto es una capa de seguridad extra contra el rebote
+    localStorage.removeItem('user');
+  }
 
   login() {
     this.authService
@@ -21,19 +27,28 @@ export class LoginComponent {
         const uid = cred.user?.uid || '';
         
         this.authService.ObtenerUsuario(uid).subscribe((usuario: any) => {
-          // GUARDAR SESIÓN PARA QUE ASISTENCIA E HISTORIAL SEPAN QUIÉN ES
+          const rolOriginal = usuario.rol || '';
+          const rolParaComparar = rolOriginal.toLowerCase().trim();
+
+          console.log("Rol recibido:", rolOriginal);
+
           const datosSesion = {
             uid: uid,
-            email: this.email.toLowerCase().trim(), // Normalizamos el email
-            rol: usuario.rol,
+            email: this.email.toLowerCase().trim(),
+            rol: rolOriginal,
             nombre: usuario.nombre || ''
           };
           
           localStorage.setItem('user', JSON.stringify(datosSesion));
 
-          if (usuario.rol === 'admin') {
+          // REDIRECCIÓN SEGÚN ROL
+          if (rolParaComparar === 'administrador' || rolParaComparar === 'admin') {
             this.router.navigate(['/admin']);
-          } else {
+          } 
+          else if (rolParaComparar === 'cliente final' || rolParaComparar === 'cliente') {
+            this.router.navigate(['/cliente/catalogo']); 
+          } 
+          else {
             this.router.navigate(['/usuario/marcar-asistencia']);
           }
         });

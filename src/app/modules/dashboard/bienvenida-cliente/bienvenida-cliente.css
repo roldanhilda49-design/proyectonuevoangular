@@ -1,0 +1,98 @@
+/* FUENTES Y COLORES */
+:host {
+  --bg-color: #0a0e17;
+  --panel-color: #161b2c;
+  --accent-color: #ff7300;
+  --text-color: #ffffff;
+}
+
+.tienda-wrapper {
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  color: var(--text-color);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* NAVBAR */
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+  height: 75px;
+  background: rgba(22, 27, 44, 0.98);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo span { color: var(--accent-color); font-weight: bold; }
+
+/* REJILLA MAESTRA */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 0px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  height: calc(100vh - 75px);
+  overflow: hidden;
+}
+
+.main-grid.show-cart {
+  grid-template-columns: 1fr 500px;
+}
+
+/* BOTÓN SALIR - ESTILO CRISTAL CORREGIDO */
+.btn-exit-glass {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  margin-left: 12px;
+}
+
+.btn-exit-glass:hover {
+  background: rgba(239, 68, 68, 0.15); /* Rojo sutil al pasar el mouse */
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ff8e8e;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+  transform: translateY(-2px);
+}
+
+/* OTROS BOTONES */
+.btn-premium-orange {
+  background: linear-gradient(135deg, #ff8c00 0%, #ff4500 100%);
+  color: white; border: none; padding: 12px 24px; border-radius: 50px;
+  font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
+}
+
+.btn-add-glow {
+  width: 48px; height: 48px;
+  background: var(--accent-color);
+  color: white; border: none; border-radius: 12px;
+  font-size: 24px; cursor: pointer; transition: 0.3s;
+}
+
+.btn-add-glow:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 0 20px var(--accent-color);
+}
+
+/* SECCIÓN PRODUCTOS Y CARRITO */
+.products-section { padding: 30px; overflow-y: auto; }
+.cards-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+
+.cart-panel { background: var(--panel-color); border-left: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column; overflow: hidden; }
+.cart-sticky-header { padding: 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+
+/* FUERZA PARA BOTONES INTERNOS */
+::ng-deep .cart-panel button, ::ng-deep .btn-quitar, ::ng-deep button[color="warn"] {
+  background: #ef4444 !important; color: white !important; border: none !important;
+  padding: 8px 16px !important; border-radius: 8px !important; font-weight: 600 !important; cursor: pointer !important;
+}
+
+/* IMAGENES */
+.img-container { background: #fff; border-radius: 15px; height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; padding: 10px; }
+.img-container img { max-height: 100%; object-fit: contain; }

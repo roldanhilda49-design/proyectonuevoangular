@@ -1,0 +1,52 @@
+.carrito-container {
+  padding: 20px;
+  background: #1e1e1e;
+  color: white;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.tabla-carrito {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.tabla-carrito th, .tabla-carrito td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #333;
+}
+
+.cantidad-badge {
+  background: #ff6b00;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.carrito-resumen {
+  margin-top: 20px;
+  text-align: right;
+  border-top: 2px solid #ff6b00;
+  padding-top: 10px;
+}
+
+.btn-eliminar {
+  background: #ff4d4d;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-pagar {
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+}

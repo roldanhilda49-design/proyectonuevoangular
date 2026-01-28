@@ -30,13 +30,11 @@
                 {{getAlertaVencimiento(p.fechaVencimiento).icono}} {{getAlertaVencimiento(p.fechaVencimiento).mensaje}}
               </div>
             </td>
-
             <td>
               <div class="img-wrapper">
                 <img [src]="p.imagenUrl || 'assets/no-image.png'" class="img-thumb" onerror="this.src='assets/no-image.png'">
               </div>
             </td>
-
             <td>
               <div *ngIf="productoEditando !== p.id">
                 <strong class="prod-name">{{p.nombre}}</strong>
@@ -49,26 +47,21 @@
                 </select>
               </div>
             </td>
-
             <td>
-              <span *ngIf="productoEditando !== p.id" class="vencimiento-text">
-                {{ (p.fechaVencimiento || null) | date:'dd/MM/yyyy' }}
-              </span>
+              <span *ngIf="productoEditando !== p.id">{{ p.fechaVencimiento | date:'dd/MM/yyyy' }}</span>
               <input *ngIf="productoEditando === p.id" type="date" [(ngModel)]="prodAux.fechaVencimiento" class="edit-input">
             </td>
-
             <td>
-              <span *ngIf="productoEditando !== p.id" class="price-cell">Bs {{p.precio}}</span>
+              <span *ngIf="productoEditando !== p.id">Bs {{p.precio}}</span>
               <input *ngIf="productoEditando === p.id" type="number" [(ngModel)]="prodAux.precio" class="edit-input sm">
             </td>
-
             <td>
-              <span *ngIf="productoEditando !== p.id" class="stock-label">{{p.stock}} u.</span>
+              <span *ngIf="productoEditando !== p.id">{{p.stock}} u.</span>
               <input *ngIf="productoEditando === p.id" type="number" [(ngModel)]="prodAux.stock" class="edit-input sm">
             </td>
-
             <td class="acciones">
               <div *ngIf="productoEditando !== p.id" class="btn-group">
+                <button (click)="agregarAlCarrito(p)" style="background:#ff6b00; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">🛒</button>
                 <button class="btn-action edit" (click)="iniciarEdicion(p)">Editar</button>
                 <button class="btn-action del" (click)="eliminar(p.id!)">Eliminar</button>
               </div>

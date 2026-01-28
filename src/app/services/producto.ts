@@ -1,68 +1,42 @@
 import { Injectable, Injector, runInInjectionContext } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
 import { Productomodels } from '../models/productomodels';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class ProductoService {
-  constructor(private firestore: AngularFirestore, private injector: Injector,
-    private storage: AngularFireStorage 
-    
+  constructor(
+    private firestore: AngularFirestore,
+    private injector: Injector // Agregamos el inyector global
   ) {}
 
-async agregarProductoConImagen(producto: Productomodels, imagen: File) {
-    debugger;
-    const id = this.firestore.createId();
-   
-    const path = `productos/${id}`;
-    const ref = this.storage.ref(path);
-
-    // subir imagen
-    await this.storage.upload(path, imagen);
-
-    // obtener url
-    const imagenUrl = await ref.getDownloadURL().toPromise();
+  obtenerProductos(): Observable<Productomodels[]> {
+    // Forzamos a Angular a ejecutar esto dentro de un contexto válido
     return runInInjectionContext(this.injector, () => {
       return this.firestore
-        .collection('productos')
-        .doc(id)
-        .set({
-          ...producto,
-          imagenUrl,
-          creadoEn: new Date(),
-        });
+        .collection<Productomodels>('productos')
+        .valueChanges({ idField: 'id' });
     });
   }
-  // Agregar producto con ID generado manualmente
-  agregarProducto(producto: Productomodels) {
-    const id = this.firestore.createId();
+
+  agregarProducto(producto: Productomodels): Promise<void> {
     return runInInjectionContext(this.injector, () => {
-      return this.firestore.collection('productos').doc(id).set({
-        ...producto,
-        id,
-        creadoEn: new Date()
-      });
+      const id = this.firestore.createId();
+      return this.firestore.collection('productos').doc(id).set({ ...producto, id });
     });
   }
 
-  // Obtener productos
- obtenerProductos() {
-  return runInInjectionContext(this.injector, () => {
-    return this.firestore
-      .collection<Productomodels>('productos')
-      .valueChanges({ idField: 'id' });
-  });
-}
+  actualizarProducto(id: string, data: any): Promise<void> {
+    return runInInjectionContext(this.injector, () => {
+      return this.firestore.collection('productos').doc(id).update(data);
+    });
+  }
 
-eliminarProducto(id: string) {
-  return runInInjectionContext(this.injector, () => {
-    return this.firestore.collection('productos').doc(id).delete();
-  });
-}
-actualizarProducto(id: string, data: Partial<Productomodels>) {
-  return runInInjectionContext(this.injector, () => {
-    return this.firestore.collection('productos').doc(id).update(data);
-  });
-}
-  
+  eliminarProducto(id: string): Promise<void> {
+    return runInInjectionContext(this.injector, () => {
+      return this.firestore.collection('productos').doc(id).delete();
+    });
+  }
 }
