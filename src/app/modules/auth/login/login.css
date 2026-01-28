@@ -1,23 +1,14 @@
-/* Reset y Fuentes */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', -apple-system, sans-serif;
-}
-
-/* Centrado total de la página */
+/* Centrado de la página */
 .login-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  width: 100%;
-  background-color: #f1f5f9; /* Un gris muy tenue y limpio */
+  background-color: #f1f5f9;
   padding: 20px;
 }
 
-/* Tarjeta principal */
+/* Tarjeta Blanca */
 .login-card {
   background: #ffffff;
   padding: 40px;
@@ -25,16 +16,12 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 400px;
-}
-
-/* Encabezado */
-.brand-section {
   text-align: center;
-  margin-bottom: 32px;
 }
 
+/* Logo y Texto */
 .logo-box {
-  background: #1e293b; /* Azul pizarra oscuro */
+  background: #1e293b;
   color: white;
   width: 48px;
   height: 48px;
@@ -50,40 +37,20 @@
 .brand-section h1 {
   font-size: 1.5rem;
   color: #0f172a;
+  margin-bottom: 4px;
 }
 
-.brand-section h1 span {
-  color: #6366f1; /* Indigo moderno */
-}
+.brand-section h1 span { color: #6366f1; }
+.brand-section p { color: #64748b; font-size: 0.875rem; margin-bottom: 30px; }
 
-.brand-section p {
-  color: #64748b;
-  font-size: 0.875rem;
-  margin-top: 4px;
-}
+/* Inputs y Etiquetas */
+.input-group { margin-bottom: 20px; text-align: left; }
 
-/* Inputs */
-.input-group {
-  margin-bottom: 20px;
-}
+.label-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
 
-.label-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
+label { font-size: 0.85rem; font-weight: 600; color: #334155; }
 
-label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #334155;
-}
-
-.forgot {
-  font-size: 0.75rem;
-  color: #6366f1;
-  cursor: pointer;
-}
+.forgot { font-size: 0.75rem; color: #6366f1; cursor: pointer; }
 
 input {
   width: 100%;
@@ -92,7 +59,7 @@ input {
   border-radius: 10px;
   font-size: 0.95rem;
   background: #f8fafc;
-  transition: all 0.2s;
+  box-sizing: border-box; /* Crucial para que no se desborde */
 }
 
 input:focus {
@@ -110,28 +77,27 @@ input:focus {
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  margin-top: 10px;
 }
 
-.btn-main:hover {
-  background: #0f172a;
-}
-
-.btn-main:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+.btn-main:hover { background: #0f172a; }
 
 .divider {
-  text-align: center;
   margin: 20px 0;
+  display: flex;
+  align-items: center;
   color: #94a3b8;
   font-size: 0.8rem;
-  position: relative;
 }
+
+.divider::before, .divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+.divider span { padding: 0 10px; }
 
 .btn-alt {
   width: 100%;
@@ -140,17 +106,7 @@ input:focus {
   color: #475569;
   border: 1.5px solid #e2e8f0;
   border-radius: 10px;
-  font-weight: 500;
   cursor: pointer;
 }
 
-.btn-alt:hover {
-  background: #f1f5f9;
-}
-
-.copyright {
-  text-align: center;
-  font-size: 0.75rem;
-  color: #94a3b8;
-  margin-top: 30px;
-}
+.copyright { margin-top: 30px; color: #94a3b8; font-size: 0.75rem; }

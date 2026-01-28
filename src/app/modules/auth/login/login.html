@@ -21,7 +21,7 @@
       <div class="input-group">
         <div class="label-row">
           <label>Contraseña</label>
-          <span class="forgot">¿Olvidaste tu clave?</span>
+          <span class="forgot" (click)="restituirClave()">¿Olvidaste tu clave?</span>
         </div>
         <input 
           type="password" 
@@ -36,10 +36,10 @@
         Entrar al Sistema
       </button>
 
-      <div class="divider">ó</div>
+      <div class="divider"><span>ó</span></div>
 
       <button type="button" (click)="irARegistro()" class="btn-alt">
-        Registrar nueva sucursal
+        Registrar nueva cuenta
       </button>
     </form>
 
