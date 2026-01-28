@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, runInInjectionContext, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Injector, runInInjectionContext } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
@@ -12,38 +12,48 @@ export class HistorialComponent implements OnInit {
   cargando: boolean = true;
 
   constructor(
-    private firestore: AngularFirestore,
-    private injector: Injector,
-    private cdr: ChangeDetectorRef // <-- Esto es la clave
+    private firestore: AngularFirestore, 
+    private cdr: ChangeDetectorRef,
+    private injector: Injector // Inyectamos el motor de dependencias
   ) {}
 
   ngOnInit() {
-    this.obtenerHistorial();
+    // Forzamos el contexto de inyección para evitar el error NG0203
+    runInInjectionContext(this.injector, () => {
+      this.obtenerHistorial();
+    });
   }
 
   obtenerHistorial() {
-    runInInjectionContext(this.injector, () => {
-      const storageUser = localStorage.getItem('user');
-      const userData = storageUser ? JSON.parse(storageUser) : null;
-      const email = userData?.email || "Empleada1@gmail.com";
+    const data = localStorage.getItem('user');
+    if (!data) {
+      this.cargando = false;
+      this.cdr.detectChanges();
+      return;
+    }
+    
+    try {
+      const user = JSON.parse(data);
+      const email = user.email;
 
+      // Consulta protegida
       this.firestore.collection('asistencias', ref => 
         ref.where('email', '==', email).orderBy('timestamp', 'desc')
       ).valueChanges().subscribe({
-        next: (data: any[]) => {
-          this.historial = data;
+        next: (res: any[]) => {
+          this.historial = res;
           this.cargando = false;
-          
-          // FORZAMOS A ANGULAR A MOSTRAR LOS DATOS AHORA MISMO
-          this.cdr.detectChanges(); 
-          console.log("Datos cargados y pantalla actualizada");
+          this.cdr.detectChanges(); // Forzamos que la vista se actualice
         },
         error: (err) => {
+          console.error("Error al cargar historial:", err);
           this.cargando = false;
           this.cdr.detectChanges();
-          console.error("Error:", err);
         }
       });
-    });
+    } catch (e) {
+      this.cargando = false;
+      this.cdr.detectChanges();
+    }
   }
 }

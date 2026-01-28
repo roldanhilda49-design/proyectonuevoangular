@@ -9,35 +9,42 @@ import { Router } from '@angular/router';
   styleUrl: './login.css',
 })
 export class LoginComponent {
-  email: string ='';
+  email: string = '';
   password: string = '';
-  constructor(private authService: AuthService,
-              private router:Router
-  ) {}
- 
+
+  constructor(private authService: AuthService, private router: Router) {}
+
   login() {
-    debugger
     this.authService
-    .login(this.email, this.password)
-    .then((cred)=>{
-      const uid = cred.user?.uid || '';
-      this.authService.ObtenerUsuario(uid).subscribe((usuario:any)=>{
-        console.log(usuario);
-        if (usuario.rol==='admin') {
-          this.router.navigate(['/admin'])
-        }
-        else{
-          this.router.navigate(['/usuario'])
-        }
+      .login(this.email, this.password)
+      .then((cred) => {
+        const uid = cred.user?.uid || '';
+        
+        this.authService.ObtenerUsuario(uid).subscribe((usuario: any) => {
+          // GUARDAR SESIÓN PARA QUE ASISTENCIA E HISTORIAL SEPAN QUIÉN ES
+          const datosSesion = {
+            uid: uid,
+            email: this.email.toLowerCase().trim(), // Normalizamos el email
+            rol: usuario.rol,
+            nombre: usuario.nombre || ''
+          };
+          
+          localStorage.setItem('user', JSON.stringify(datosSesion));
+
+          if (usuario.rol === 'admin') {
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate(['/usuario/marcar-asistencia']);
+          }
+        });
       })
-
-
+      .catch((error) => {
+        console.error("Error en login:", error);
+        alert("Credenciales incorrectas");
+      });
   }
-  ) }
+
   irARegistro() {
-  this.router.navigate(['/registrar']);
+    this.router.navigate(['/registrar']);
+  }
 }
-
-} 
-
-

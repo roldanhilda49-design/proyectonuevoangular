@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Injector, runInInjectionContext, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, Injector, runInInjectionContext } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { interval, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,146 +10,107 @@ import { map } from 'rxjs/operators';
   styleUrl: './asistencia.css'
 })
 export class AsistenciaComponent implements OnInit, OnDestroy {
-  // RELOJ INDEPENDIENTE
   reloj$: Observable<string>; 
   fechaEspanol: string = ''; 
-
-  // ESTADOS DE REGISTRO
-  entradaHecha = false;
-  salidaHecha = false;
   
-  // VARIABLES FIJAS PARA LAS FOTOS
+  // Variables de estado dinámico
+  entradaHecha = false; // Controla si el botón de ENTRADA está activo
+  salidaHecha = false;  // Controla si el botón de SALIDA está activo
+  
   infoEntrada: string | null = null;
   infoSalida: string | null = null;
-  
-  mensajeFeedback: string = '';
+  mensajeFeedback: string = ''; 
   documentoId: string | null = null;
-
-  // Suscripción para poder cancelarla si es necesario
-  private asistenciaSub?: Subscription;
+  private sub?: Subscription;
 
   constructor(
-    private firestore: AngularFirestore,
-    private injector: Injector,
-    private cdr: ChangeDetectorRef // Inyectamos el detector de cambios
+    private firestore: AngularFirestore, 
+    private cdr: ChangeDetectorRef,
+    private injector: Injector
   ) {
-    this.reloj$ = interval(1000).pipe(
-      map(() => new Date().toLocaleTimeString('es-ES'))
-    );
-
-    const opciones: Intl.DateTimeFormatOptions = { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    };
+    this.reloj$ = interval(1000).pipe(map(() => new Date().toLocaleTimeString('es-ES')));
+    const opciones: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     this.fechaEspanol = new Date().toLocaleDateString('es-ES', opciones);
   }
 
   ngOnInit() {
-    // REINICIO TOTAL AL ENTRAR
-    this.limpiarEstado();
-    this.verificarDatos();
+    runInInjectionContext(this.injector, () => {
+      this.verificarEstadoActual();
+    });
   }
 
   ngOnDestroy() {
-    // Cancelamos la suscripción para evitar fugas de memoria o cruce de datos
-    if (this.asistenciaSub) {
-      this.asistenciaSub.unsubscribe();
-    }
+    if (this.sub) this.sub.unsubscribe();
   } 
 
-  limpiarEstado() {
-    this.entradaHecha = false;
-    this.salidaHecha = false;
-    this.infoEntrada = null;
-    this.infoSalida = null;
-    this.documentoId = null;
-    this.mensajeFeedback = '';
+  // Esta función decide qué botón habilitar basándose en el ÚLTIMO registro
+  verificarEstadoActual() {
+    const data = localStorage.getItem('user');
+    if (!data) return;
+
+    const email = JSON.parse(data).email;
+
+    this.sub = this.firestore.collection('asistencias', ref => 
+      ref.where('email', '==', email).orderBy('timestamp', 'desc').limit(1)
+    ).valueChanges({ idField: 'id' }).subscribe((res: any[]) => {
+      
+      if (res.length > 0) {
+        const ultimoRegistro = res[0];
+        
+        // REGLA: Si el último registro NO tiene hora de salida, significa que está "adentro"
+        if (!ultimoRegistro.horaSalida) {
+          this.documentoId = ultimoRegistro.id;
+          this.entradaHecha = true;  // Bloqueamos entrada
+          this.salidaHecha = false;  // Habilitamos salida
+          this.infoEntrada = ultimoRegistro.horaEntrada;
+          this.infoSalida = null;
+        } else {
+          // Si el último registro SÍ tiene salida, puede volver a entrar
+          this.entradaHecha = false; // Habilitamos entrada
+          this.salidaHecha = true;  // Bloqueamos salida
+          this.infoEntrada = null;
+          this.infoSalida = ultimoRegistro.horaSalida;
+          this.documentoId = null;
+        }
+      } else {
+        // Primer registro de la historia
+        this.entradaHecha = false;
+        this.salidaHecha = true;
+      }
+      this.cdr.detectChanges();
+    });
   }
 
   registrarEntrada() {
     runInInjectionContext(this.injector, () => {
-      const storageUser = localStorage.getItem('user');
-      const userData = storageUser ? JSON.parse(storageUser) : null;
-      const email = userData?.email || "Empleada1@gmail.com";
-      
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
       const ahora = new Date();
-      const horaFoto = ahora.toLocaleTimeString('es-ES');
 
       this.firestore.collection('asistencias').add({
-        email: email,
+        email: user.email,
         fecha: ahora.toLocaleDateString('es-ES'),
-        horaEntrada: horaFoto,
-        horaSalida: null,
+        horaEntrada: ahora.toLocaleTimeString('es-ES'),
+        horaSalida: null, // Se queda nulo hasta que marque salida
         timestamp: Date.now()
-      }).then((doc) => {
-        this.documentoId = doc.id;
-        this.entradaHecha = true;
-        this.infoEntrada = horaFoto;
-        this.mensajeFeedback = '¡Entrada registrada con éxito! ✅';
-        this.cdr.detectChanges(); // Forzamos actualización visual
-        setTimeout(() => {
-          this.mensajeFeedback = '';
-          this.cdr.detectChanges();
-        }, 3000);
+      }).then(() => {
+        this.mensajeFeedback = '¡Entrada registrada! ✅';
+        this.cdr.detectChanges();
+        setTimeout(() => { this.mensajeFeedback = ''; this.cdr.detectChanges(); }, 3000);
       });
     });
   }
 
   registrarSalida() {
+    if (!this.documentoId) return;
+
     runInInjectionContext(this.injector, () => {
-      const horaFoto = new Date().toLocaleTimeString('es-ES');
-
-      if (this.documentoId) {
-        this.firestore.collection('asistencias').doc(this.documentoId).update({
-          horaSalida: horaFoto
-        }).then(() => {
-          this.salidaHecha = true;
-          this.infoSalida = horaFoto; 
-          this.mensajeFeedback = '¡Salida registrada con éxito! 👋';
-          this.cdr.detectChanges();
-          setTimeout(() => {
-            this.mensajeFeedback = '';
-            this.cdr.detectChanges();
-          }, 3000);
-        });
-      }
-    });
-  }
-
-  verificarDatos() {
-    runInInjectionContext(this.injector, () => {
-      const storageUser = localStorage.getItem('user');
-      const userData = storageUser ? JSON.parse(storageUser) : null;
-      const email = userData?.email || "Empleada1@gmail.com";
-
-      // Al usar una suscripción manual, podemos limpiarla al cambiar de usuario
-      this.asistenciaSub = this.firestore.collection('asistencias', ref => 
-        ref.where('email', '==', email).orderBy('timestamp', 'desc').limit(1)
-      ).valueChanges({ idField: 'id' }).subscribe((res: any[]) => {
-        
-        // Cada vez que recibimos datos, evaluamos si es de HOY
-        if (res.length > 0) {
-          const hoy = new Date().toLocaleDateString('es-ES');
-          const ultimo = res[0];
-
-          if (ultimo.fecha === hoy) {
-            this.documentoId = ultimo.id;
-            this.entradaHecha = true;
-            this.infoEntrada = ultimo.horaEntrada;
-            if (ultimo.horaSalida) {
-              this.salidaHecha = true;
-              this.infoSalida = ultimo.horaSalida;
-            }
-          } else {
-            // Si el último registro NO es de hoy, habilitamos el panel
-            this.limpiarEstado();
-          }
-        } else {
-          this.limpiarEstado();
-        }
+      this.firestore.collection('asistencias').doc(this.documentoId!).update({
+        horaSalida: new Date().toLocaleTimeString('es-ES'),
+        timestamp: Date.now() // Actualizamos el timestamp para que sea el registro más reciente
+      }).then(() => {
+        this.mensajeFeedback = '¡Salida registrada! 👋';
         this.cdr.detectChanges();
+        setTimeout(() => { this.mensajeFeedback = ''; this.cdr.detectChanges(); }, 3000);
       });
     });
   }
