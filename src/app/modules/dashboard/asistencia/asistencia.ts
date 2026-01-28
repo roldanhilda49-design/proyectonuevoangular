@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, Injector, runInInjectionContext } from '@angular/core';
+import { Component, OnInit, OnDestroy, Injector, runInInjectionContext, ChangeDetectorRef } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { interval, Observable } from 'rxjs';
+import { interval, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 export class AsistenciaComponent implements OnInit, OnDestroy {
   // RELOJ INDEPENDIENTE
   reloj$: Observable<string>; 
-  fechaEspanol: string = ''; // Cambiado de fechaEspañol a fechaEspanol
+  fechaEspanol: string = ''; 
 
   // ESTADOS DE REGISTRO
   entradaHecha = false;
@@ -25,16 +25,18 @@ export class AsistenciaComponent implements OnInit, OnDestroy {
   mensajeFeedback: string = '';
   documentoId: string | null = null;
 
+  // Suscripción para poder cancelarla si es necesario
+  private asistenciaSub?: Subscription;
+
   constructor(
     private firestore: AngularFirestore,
-    private injector: Injector 
+    private injector: Injector,
+    private cdr: ChangeDetectorRef // Inyectamos el detector de cambios
   ) {
-    // Reloj en tiempo real
     this.reloj$ = interval(1000).pipe(
       map(() => new Date().toLocaleTimeString('es-ES'))
     );
 
-    // Configuración de fecha en español
     const opciones: Intl.DateTimeFormatOptions = { 
       weekday: 'long', 
       year: 'numeric', 
@@ -45,10 +47,26 @@ export class AsistenciaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    setTimeout(() => this.verificarDatos(), 500);
+    // REINICIO TOTAL AL ENTRAR
+    this.limpiarEstado();
+    this.verificarDatos();
   }
 
-  ngOnDestroy() {} 
+  ngOnDestroy() {
+    // Cancelamos la suscripción para evitar fugas de memoria o cruce de datos
+    if (this.asistenciaSub) {
+      this.asistenciaSub.unsubscribe();
+    }
+  } 
+
+  limpiarEstado() {
+    this.entradaHecha = false;
+    this.salidaHecha = false;
+    this.infoEntrada = null;
+    this.infoSalida = null;
+    this.documentoId = null;
+    this.mensajeFeedback = '';
+  }
 
   registrarEntrada() {
     runInInjectionContext(this.injector, () => {
@@ -70,7 +88,11 @@ export class AsistenciaComponent implements OnInit, OnDestroy {
         this.entradaHecha = true;
         this.infoEntrada = horaFoto;
         this.mensajeFeedback = '¡Entrada registrada con éxito! ✅';
-        setTimeout(() => this.mensajeFeedback = '', 3000);
+        this.cdr.detectChanges(); // Forzamos actualización visual
+        setTimeout(() => {
+          this.mensajeFeedback = '';
+          this.cdr.detectChanges();
+        }, 3000);
       });
     });
   }
@@ -86,7 +108,11 @@ export class AsistenciaComponent implements OnInit, OnDestroy {
           this.salidaHecha = true;
           this.infoSalida = horaFoto; 
           this.mensajeFeedback = '¡Salida registrada con éxito! 👋';
-          setTimeout(() => this.mensajeFeedback = '', 3000);
+          this.cdr.detectChanges();
+          setTimeout(() => {
+            this.mensajeFeedback = '';
+            this.cdr.detectChanges();
+          }, 3000);
         });
       }
     });
@@ -98,12 +124,16 @@ export class AsistenciaComponent implements OnInit, OnDestroy {
       const userData = storageUser ? JSON.parse(storageUser) : null;
       const email = userData?.email || "Empleada1@gmail.com";
 
-      this.firestore.collection('asistencias', ref => 
+      // Al usar una suscripción manual, podemos limpiarla al cambiar de usuario
+      this.asistenciaSub = this.firestore.collection('asistencias', ref => 
         ref.where('email', '==', email).orderBy('timestamp', 'desc').limit(1)
       ).valueChanges({ idField: 'id' }).subscribe((res: any[]) => {
+        
+        // Cada vez que recibimos datos, evaluamos si es de HOY
         if (res.length > 0) {
           const hoy = new Date().toLocaleDateString('es-ES');
           const ultimo = res[0];
+
           if (ultimo.fecha === hoy) {
             this.documentoId = ultimo.id;
             this.entradaHecha = true;
@@ -112,8 +142,14 @@ export class AsistenciaComponent implements OnInit, OnDestroy {
               this.salidaHecha = true;
               this.infoSalida = ultimo.horaSalida;
             }
+          } else {
+            // Si el último registro NO es de hoy, habilitamos el panel
+            this.limpiarEstado();
           }
+        } else {
+          this.limpiarEstado();
         }
+        this.cdr.detectChanges();
       });
     });
   }
