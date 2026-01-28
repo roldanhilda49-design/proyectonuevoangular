@@ -17,7 +17,7 @@
       <div class="grid-inputs">
         <div class="form-group">
           <label>Nombre del Producto</label>
-          <input [(ngModel)]="nuevoProducto.nombre" placeholder="Ej. Hierro en gotas">
+          <input type="text" [(ngModel)]="nuevoProducto.nombre" placeholder="Ej. Hierro en gotas">
         </div>
 
         <div class="form-group-row">
@@ -32,15 +32,23 @@
             </div>
         </div>
         
-        <div class="form-group">
-          <label>Categoría</label>
-          <select [(ngModel)]="nuevoProducto.idCategoria">
-            <option value="" disabled selected>Seleccione una categoría</option>
-            <option *ngFor="let cat of categorias" [value]="cat.id">
-              {{ cat.nombre }}
-            </option>
-          </select>
+        <div class="form-group-row">
+            <div class="form-group">
+                <label>Categoría</label>
+                <select [(ngModel)]="nuevoProducto.idCategoria">
+                    <option value="" disabled selected>Seleccione una categoría</option>
+                    <option *ngFor="let cat of categorias" [value]="cat.id">
+                    {{ cat.nombre }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Fecha de Vencimiento</label>
+                <input type="date" [(ngModel)]="nuevoProducto.fechaVencimiento">
+            </div>
         </div>
+
       </div>
 
       <div class="image-upload-section">
@@ -50,7 +58,7 @@
           <img *ngIf="imagenPreview" [src]="imagenPreview" class="preview-img" />
           <div *ngIf="!imagenPreview" class="placeholder-preview">
             <div class="camera-icon">📸</div>
-            <span>Sin imagen seleccionada</span>
+            <span>Sin imagen</span>
           </div>
         </div>
 
