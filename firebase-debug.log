@@ -1,121 +1,16 @@
-[debug] [2026-01-27T22:32:26.624Z] ----------------------------------------------------------------------
-[debug] [2026-01-27T22:32:26.627Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\alanv\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
-[debug] [2026-01-27T22:32:26.627Z] CLI Version:   15.4.0
-[debug] [2026-01-27T22:32:26.627Z] Platform:      win32
-[debug] [2026-01-27T22:32:26.627Z] Node Version:  v20.19.6
-[debug] [2026-01-27T22:32:26.627Z] Time:          Tue Jan 27 2026 18:32:26 GMT-0400 (hora de Bolivia)
-[debug] [2026-01-27T22:32:26.628Z] ----------------------------------------------------------------------
+[debug] [2026-01-30T04:17:11.778Z] ----------------------------------------------------------------------
+[debug] [2026-01-30T04:17:11.782Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\alanv\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2026-01-30T04:17:11.783Z] CLI Version:   15.4.0
+[debug] [2026-01-30T04:17:11.783Z] Platform:      win32
+[debug] [2026-01-30T04:17:11.784Z] Node Version:  v20.19.6
+[debug] [2026-01-30T04:17:11.784Z] Time:          Fri Jan 30 2026 00:17:11 GMT-0400 (hora de Bolivia)
+[debug] [2026-01-30T04:17:11.784Z] ----------------------------------------------------------------------
 [debug] 
-[info] 
-     ######## #### ########  ######## ########     ###     ######  ########
-     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
-     ######    ##  ########  ######   ########  #########  ######  ######
-     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
-     ##       #### ##     ## ######## ########  ##     ##  ######  ########
-
-You're about to initialize a Firebase project in this directory:
-
-  C:\Users\alanv\Desktop\Registros
-
-[debug] [2026-01-27T22:54:20.702Z] ExitPromptError: User force closed the prompt with SIGINT
-    at Interface.sigint (C:\Users\alanv\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\@inquirer\core\dist\commonjs\lib\create-prompt.js:101:37)
-    at Interface.emit (node:events:524:28)
-    at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1134:18)
-    at ReadStream.onkeypress (node:internal/readline/interface:267:20)
-    at ReadStream.emit (node:events:536:35)
-    at emitKeys (node:internal/readline/utils:371:14)
-    at emitKeys.next (<anonymous>)
-    at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
-    at ReadStream.emit (node:events:524:28)
-    at addChunk (node:internal/streams/readable:561:12)
-[error] 
-[error] Error: An unexpected error has occurred.
-[debug] [2026-01-27T22:57:47.855Z] ----------------------------------------------------------------------
-[debug] [2026-01-27T22:57:47.858Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\alanv\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
-[debug] [2026-01-27T22:57:47.858Z] CLI Version:   15.4.0
-[debug] [2026-01-27T22:57:47.858Z] Platform:      win32
-[debug] [2026-01-27T22:57:47.858Z] Node Version:  v20.19.6
-[debug] [2026-01-27T22:57:47.859Z] Time:          Tue Jan 27 2026 18:57:47 GMT-0400 (hora de Bolivia)
-[debug] [2026-01-27T22:57:47.859Z] ----------------------------------------------------------------------
-[debug] 
-[info] 
-     ######## #### ########  ######## ########     ###     ######  ########
-     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
-     ######    ##  ########  ######   ########  #########  ######  ######
-     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
-     ##       #### ##     ## ######## ########  ##     ##  ######  ########
-
-You're about to initialize a Firebase project in this directory:
-
-  C:\Users\alanv\Desktop\Registros
-
-[debug] [2026-01-27T23:02:28.821Z] ExitPromptError: User force closed the prompt with SIGINT
-    at Interface.sigint (C:\Users\alanv\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\@inquirer\core\dist\commonjs\lib\create-prompt.js:101:37)
-    at Interface.emit (node:events:524:28)
-    at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1134:18)
-    at ReadStream.onkeypress (node:internal/readline/interface:267:20)
-    at ReadStream.emit (node:events:536:35)
-    at emitKeys (node:internal/readline/utils:371:14)
-    at emitKeys.next (<anonymous>)
-    at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
-    at ReadStream.emit (node:events:524:28)
-    at addChunk (node:internal/streams/readable:561:12)
-[error] 
-[error] Error: An unexpected error has occurred.
-[debug] [2026-01-27T23:04:18.064Z] ----------------------------------------------------------------------
-[debug] [2026-01-27T23:04:18.067Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\alanv\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
-[debug] [2026-01-27T23:04:18.067Z] CLI Version:   15.4.0
-[debug] [2026-01-27T23:04:18.068Z] Platform:      win32
-[debug] [2026-01-27T23:04:18.068Z] Node Version:  v20.19.6
-[debug] [2026-01-27T23:04:18.068Z] Time:          Tue Jan 27 2026 19:04:18 GMT-0400 (hora de Bolivia)
-[debug] [2026-01-27T23:04:18.068Z] ----------------------------------------------------------------------
-[debug] 
-[info] 
-     ######## #### ########  ######## ########     ###     ######  ########
-     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
-     ######    ##  ########  ######   ########  #########  ######  ######
-     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
-     ##       #### ##     ## ######## ########  ##     ##  ######  ########
-
-You're about to initialize a Firebase project in this directory:
-
-  C:\Users\alanv\Desktop\Registros
-
-[info] 
-=== Project Setup
-[info] 
-[info] First, let's associate this project directory with a Firebase project.
-[info] You can create multiple project aliases by running firebase use --add, 
-[info] 
-[debug] [2026-01-27T23:04:34.982Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2026-01-27T23:04:34.983Z] > authorizing via signed-in user (alanillanesf6@gmail.com)
-[debug] [2026-01-27T23:04:34.985Z] Checked if tokens are valid: true, expires at: 1769556711923
-[debug] [2026-01-27T23:04:34.986Z] Checked if tokens are valid: true, expires at: 1769556711923
-[debug] [2026-01-27T23:04:34.989Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
-[debug] [2026-01-27T23:04:35.974Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
-[debug] [2026-01-27T23:04:35.974Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
-[info] 
-=== Hosting Setup
-[debug] [2026-01-27T23:04:44.248Z] Checked if tokens are valid: true, expires at: 1769556711923
-[debug] [2026-01-27T23:04:44.248Z] Checked if tokens are valid: true, expires at: 1769556711923
-[debug] [2026-01-27T23:04:44.248Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/registro-58916 [none]
-[debug] [2026-01-27T23:04:44.670Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/registro-58916 200
-[debug] [2026-01-27T23:04:44.671Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/registro-58916 {"projectId":"registro-58916","projectNumber":"478689359115","displayName":"Registro","name":"projects/registro-58916","resources":{"hostingSite":"registro-58916"},"state":"ACTIVE","etag":"1_303cea7a-fa9d-4e5d-b467-e92f78f81312"}
-[info] 
-[info] Your public directory is the folder (relative to your project directory) that
-[info] will contain Hosting assets to be uploaded with firebase deploy. If you
-[info] have a build process for your assets, use your build's output directory.
-[info] 
-[debug] [2026-01-27T23:05:34.339Z] ExitPromptError: User force closed the prompt with SIGINT
-    at Interface.sigint (C:\Users\alanv\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\@inquirer\core\dist\commonjs\lib\create-prompt.js:101:37)
-    at Interface.emit (node:events:524:28)
-    at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1134:18)
-    at ReadStream.onkeypress (node:internal/readline/interface:267:20)
-    at ReadStream.emit (node:events:536:35)
-    at emitKeys (node:internal/readline/utils:371:14)
-    at emitKeys.next (<anonymous>)
-    at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
-    at ReadStream.emit (node:events:524:28)
-    at addChunk (node:internal/streams/readable:561:12)
-[error] 
-[error] Error: An unexpected error has occurred.
+[debug] [2026-01-30T04:17:13.506Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-30T04:17:13.507Z] > authorizing via signed-in user (alanillanesf6@gmail.com)
+[debug] [2026-01-30T04:17:13.507Z] [iam] checking project registro-58916 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-01-30T04:17:13.508Z] Checked if tokens are valid: true, expires at: 1769747866088
+[debug] [2026-01-30T04:17:13.508Z] Checked if tokens are valid: true, expires at: 1769747866088
+[debug] [2026-01-30T04:17:13.510Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/registro-58916:testIamPermissions [none]
+[debug] [2026-01-30T04:17:13.510Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/registro-58916:testIamPermissions x-goog-quota-user=projects/registro-58916
+[debug] [2026-01-30T04:17:13.510Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/registro-58916:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
